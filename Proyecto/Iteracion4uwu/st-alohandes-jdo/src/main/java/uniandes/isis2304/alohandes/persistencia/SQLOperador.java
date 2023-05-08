@@ -63,7 +63,7 @@ public class SQLOperador {
                                   double gananciAnioCorrido, ArrayList habitaciones, ArrayList apartamentos) {
 
         Query q = pm.newQuery(SQL,
-                              "INSERT INTO " + pp.darTablaOperador() + "(id, numero_RNT,vencimiento_RNT,registro_Super_Turismo,vencimiento_Registro_Super_Turismo,categoria,direccion,hora_Apertura,hora_Cierre,tiempo_Minimo,ganancia_Anio_Actual,ganancia_Anio_Corrido,habitaciones,apartamentos) values (?, ?, TO_DATE(?), ?,TO_DATE(?),?,?,TO_DATE(?),TO_DATE(?),?,?,?,?,?)");
+                              "INSERT INTO A_OPERADOR(id, numero_RNT,vencimiento_RNT,registro_Super_Turismo,vencimiento_Registro_Super_Turismo,categoria,direccion,hora_Apertura,hora_Cierre,tiempo_Minimo,ganancia_Anio_Actual,ganancia_Anio_Corrido,habitaciones,apartamentos) values (?, ?, TO_DATE(?), ?,TO_DATE(?),?,?,TO_DATE(?),TO_DATE(?),?,?,?,?,?)");
         q.setParameters(id, numeroRNT, vencimientoRNT, registroSuperTurismo, vencimientoRegistroSuperTurismo, categoria,
                         direccion,
                         horaApertura, horaCierre, tiempoMinimo, gananciaAnioActual, gananciAnioCorrido, habitaciones,
@@ -80,10 +80,10 @@ public class SQLOperador {
      * @return EL número de tuplas eliminadas
      */
     public long eliminarOperadorPorId(PersistenceManager pm, long idOperador) {
-        String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
-        sql += "BEGIN TRAN";
-        sql += "DELETE FROM " + pp.darTablaOperador() + " WHERE id = ?";
-        sql += "COMMIT TRAN";
+        String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE ";
+        sql += " BEGIN TRAN ";
+        sql += " DELETE FROM A_OPERADOR WHERE id = ? ";
+        sql += " COMMIT TRAN";
         Query q = pm.newQuery(SQL, sql);
         q.setParameters(idOperador);
         return (long) q.executeUnique();
@@ -98,10 +98,10 @@ public class SQLOperador {
      * @return El objeto OPERADOR que tiene el identificador dado
      */
     public Operador darOperadorPorId(PersistenceManager pm, long idOperador) {
-        String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
-        sql += "BEGIN TRAN";
-        sql += "SELECT * FROM " + pp.darTablaOperador() + " WHERE id = ?";
-        sql += "COMMIT TRAN";
+        String sql = " SET TRANSACTION ISOLATION LEVEL SERIALIZABLE ";
+        sql += " BEGIN TRAN ";
+        sql += " SELECT * FROM A_OPERADOR WHERE id = ?";
+        sql += " COMMIT TRAN ";
         Query q = pm.newQuery(SQL, sql);
         q.setResultClass(Operador.class);
         q.setParameters(idOperador);
@@ -116,10 +116,10 @@ public class SQLOperador {
      * @return EL número de tuplas eliminadas
      */
     public long eliminarOperadorPorLogin(PersistenceManager pm, long loginOperador) {
-        String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
-        sql += "BEGIN TRAN";
-        sql += "DELETE FROM " + pp.darTablaOperador() + " WHERE login = ?";
-        sql += "COMMIT TRAN";
+        String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE ";
+        sql += " BEGIN TRAN";
+        sql += " DELETE FROM A_OPERADOR WHERE login = ? ";
+        sql += " COMMIT TRAN";
         Query q = pm.newQuery(SQL, sql);
         q.setParameters(loginOperador);
         return (long) q.executeUnique();
@@ -134,10 +134,10 @@ public class SQLOperador {
      * @return El objeto OPERADOR que tiene el identificador dado
      */
     public Operador darOperadorPorLogin(PersistenceManager pm, String loginOperador) {
-        String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE";
-        sql += "BEGIN TRAN";
-        sql += "SELECT * FROM " + pp.darTablaOperador() + " WHERE login = ?";
-        sql += "COMMIT TRAN";
+        String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE ";
+        sql += " BEGIN TRAN";
+        sql += " SELECT * FROM A_OPERADOR WHERE login = ?";
+        sql += " COMMIT TRAN ";
         Query q = pm.newQuery(SQL, sql);
         q.setResultClass(Operador.class);
         q.setParameters(loginOperador);
@@ -152,7 +152,7 @@ public class SQLOperador {
      * @return Una lista de objetos OPERADOR
      */
     public List<Operador> darOperadores(PersistenceManager pm) {
-        String sql = "SELECT * FROM " + pp.darTablaOperador();
+        String sql = "SELECT * FROM A_OPERADOR";
         Query<Operador> q = pm.newQuery(SQL, sql);
         return q.executeResultList(Operador.class);
     }

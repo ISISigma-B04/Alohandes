@@ -1060,7 +1060,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener {
         try {
             String id = JOptionPane.showInputDialog(this, "Id del cliente?", "Id del cliente",
                                                     JOptionPane.QUESTION_MESSAGE);
-            String orden = JOptionPane.showInputDialog(this, "Orden?", "orden", JOptionPane.QUESTION_MESSAGE);
+            String orden = JOptionPane.showInputDialog(this, "Orden deseado?", "orden", JOptionPane.QUESTION_MESSAGE);
             String FI = JOptionPane.showInputDialog(this, "Fecha inicial?", "Fecha inicial",
                                                     JOptionPane.QUESTION_MESSAGE);
             String FF = JOptionPane.showInputDialog(this, "Fecha final?", "Fecha final", JOptionPane.QUESTION_MESSAGE);
@@ -1082,7 +1082,7 @@ public class InterfazAlohandesApp extends JFrame implements ActionListener {
         try {
             String id = JOptionPane.showInputDialog(this, "Id del cliente?", "Id del cliente",
                                                     JOptionPane.QUESTION_MESSAGE);
-            String orden = JOptionPane.showInputDialog(this, "Orden?", "orden", JOptionPane.QUESTION_MESSAGE);
+            String orden = JOptionPane.showInputDialog(this, "Orden deseado?", "orden", JOptionPane.QUESTION_MESSAGE);
             String FI = JOptionPane.showInputDialog(this, "Fecha inicial?", "Fecha inicial",
                                                     JOptionPane.QUESTION_MESSAGE);
             String FF = JOptionPane.showInputDialog(this, "Fecha final?", "Fecha final", JOptionPane.QUESTION_MESSAGE);

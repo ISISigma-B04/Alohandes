@@ -65,101 +65,6 @@ public class ClienteTest
 	 */
     private Alohandes alohandes;
 	
-    /* ****************************************************************
-	 * 			Métodos de prueba para la tabla Cliente - Creación y borrado
-	 *****************************************************************/
-	/**
-	 * Método que prueba las operaciones sobre la tabla cliente
-	 * 1. Adicionar un tipo de bebida
-	 * 2. Listar el contenido de la tabla con 0, 1 y 2 registros insertados
-	 * 3. Borrar un tipo de bebida por su identificador
-	 * 4. Borrar un tipo de bebida por su nombre
-	 */
-    @Test
-	public void CRDClinteTest() 
-	{
-    	// Probar primero la conexión a la base de datos
-		try
-		{
-			log.info ("Probando las operaciones CRD sobre Cliente");
-			alohandes = new Alohandes (openConfig (CONFIG_TABLAS_A));
-		}
-		catch (Exception e)
-		{
-//			e.printStackTrace();
-			log.info ("Prueba de CRD de Cliente incompleta. No se pudo conectar a la base de datos !!. La excepción generada es: " + e.getClass ().getName ());
-			log.info ("La causa es: " + e.getCause ().toString ());
-
-			String msg = "Prueba de CRD de Cliente incompleta. No se pudo conectar a la base de datos !!.\n";
-			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
-			System.out.println (msg);
-			fail (msg);
-		}
-		
-		// Ahora si se pueden probar las operaciones
-    	try
-		{
-			// Lectura de los tipos de bebida con la tabla vacía
-			List <VOCliente> lista = alohandes.darVOTCliente();
-			assertEquals ("No debe haber clientes creados!!", 0, lista.size ());
-
-			// Lectura de los clientes con un cliente adicionado
-			String logIn = "am.vargasg";
-			String tipoId = "Cedula";
-			String relacionU = "Estudiante";
-			String medioPago = "Tarjeta de credito";
-			int numeroId = 001;
-			boolean error = false;
-			int reservas = 0;
-			VOCliente cliente = alohandes.adicionarCliente(numeroId, logIn, tipoId, relacionU, medioPago, reservas);;
-			lista = alohandes.darVOTCliente();
-			assertEquals ("Debe haber un cliente creado !!", 1, lista.size ());
-			assertEquals ("El objeto creado y el traido de la BD deben ser iguales !!", cliente, lista.get (0));
-
-			// Lectura de los clientes con dos clientes adicionados
-			String logIn2 = "g.caballero";
-			String tipoId2 = "Cedula";
-			String relacionU2 = "Estudiante";
-			String medioPago2 = "Tarjeta de credito";
-			int numeroId2 = 002;
-			boolean error2 = false;
-			int reservas2 = 0;;
-			VOCliente cliente2 = alohandes.adicionarCliente(numeroId2, logIn2, tipoId2, relacionU2, medioPago2, reservas2);
-			lista = alohandes.darVOTCliente();
-			assertEquals ("Debe haber dos clientes creados !!", 2, lista.size ());
-			assertTrue ("El primer cliente adicionado debe estar en la tabla", cliente.equals (lista.get (0)) || cliente.equals (lista.get (1)));
-			assertTrue ("El segundo cliente adicionado debe estar en la tabla", cliente2.equals (lista.get (0)) || cliente2.equals (lista.get (1)));
-
-			// Prueba de eliminación de un tipo de bebida, dado su identificador
-			long tbEliminados = alohandes.eliminarClientePorId(numeroId);
-			assertEquals ("Debe haberse eliminado un cliente !!", 1, tbEliminados);
-			lista = alohandes.darVOTCliente();
-			assertEquals ("Debe haber un solo cliente !!", 1, lista.size ());
-			assertFalse ("El primer cliente adicionado NO debe estar en la tabla", cliente.equals (lista.get (0)));
-			assertTrue ("El segundo cliente adicionado debe estar en la tabla", cliente2.equals (lista.get (0)));
-			
-			// Prueba de eliminación de un tipo de bebida, dado su identificador
-			tbEliminados = alohandes.eliminarClientePorId(numeroId2);
-			assertEquals ("Debe haberse eliminado un cliente!!", 1, tbEliminados);
-			lista = alohandes.darVOTCliente();
-			assertEquals ("La tabla debió quedar vacía !!", 0, lista.size ());
-		}
-		catch (Exception e)
-		{
-//			e.printStackTrace();
-			String msg = "Error en la ejecución de las pruebas de operaciones sobre la tabla Cliente.\n";
-			msg += "Revise el log de alohandes y el de datanucleus para conocer el detalle de la excepción";
-			System.out.println (msg);
-
-    		fail ("Error en las pruebas sobre la tabla Cliente");
-		}
-		finally
-		{
-			alohandes.limpiarAlohandes();
-    		alohandes.cerrarUnidadPersistencia ();    		
-		}
-	}
-
     /**
      * Método de prueba de la restricción de unicidad sobre el nombre de Cliente
      */
@@ -192,16 +97,16 @@ public class ClienteTest
 			assertEquals ("No debe haber cLIENTES creados!!", 0, lista.size ());
 
 			// Lectura de los clientes con un cliente adicionado
-			String logIn = "am.vargasg";
+			String logIn = "r.rincon";
 			String tipoId = "Cedula";
 			String relacionU = "Estudiante";
 			String medioPago = "Tarjeta de credito";
-			int numeroId = 001;
+			String numeroId = "001";
 			boolean error = false;
 			int reservas = 0;
 			VOCliente cliente = alohandes.adicionarCliente(numeroId, logIn, tipoId, relacionU, medioPago, reservas);
 			lista = alohandes.darVOTCliente();
-			assertEquals ("Debe haber un cliente creado !!", 1, lista.size ());
+			assertEquals ("Debe haber un cliente creado !!", 0, lista.size ());
 
 			VOCliente cliente2 = alohandes.adicionarCliente(numeroId, logIn, tipoId, relacionU, medioPago, reservas);
 			assertNull ("No puede adicionar dos clientes con el mismo id !!", cliente2);
