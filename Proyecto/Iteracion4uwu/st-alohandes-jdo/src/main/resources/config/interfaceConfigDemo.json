@@ -1,0 +1,111 @@
+{
+	"title": "Demostración de Parranderos Uniandes",
+	"frameH": 600,
+	"frameW": 800,
+	"bannerPath": "./src/main/resources/config/logo.png",
+	"menuBar":
+	[
+		{ "menuTitle": "Cliente",
+		  "options":
+			[
+				{
+					"label": "CRD de Cliente",
+					"event": "demoCliente"
+				}
+			]
+		},		
+		{ "menuTitle": "Operador",
+		  "options":
+			[
+				{
+					"label": "CRD Operador",
+					"event": "demoOperador"
+				}
+			]
+		},	
+		{ "menuTitle": "Habitacion",
+		  "options":
+			[
+				{
+					"label": "CRD Habitacion",
+					"event": "demoHabitacion"
+				}
+			]
+		},	
+		{ "menuTitle": "Apartameto",
+		  "options":
+			[
+				{
+					"label": "CRD Apartamento",
+					"event": "demoApartamento"
+				}
+			]
+		},	
+		{ "menuTitle": "Servicio",
+		  "options":
+			[
+				{
+					"label": "CRD Servicio",
+					"event": "demoServicio"
+				}
+			]
+		},	
+		{ "menuTitle": "Reserva",
+		  "options":
+			[
+				{
+					"label": "CRD Reserva",
+					"event": "demoReserva"
+				}
+			]
+		},	
+		{ "menuTitle": "ReservaColectiva",
+		  "options":
+			[
+				{
+					"label": "CRD ReservaColectiva",
+					"event": "demoReservaColectiva"
+				}
+			]
+		},	
+		{ "menuTitle": "Documentación",
+		  "options":
+			[
+				{
+					"label": "Presentación general",
+					"event": "mostrarPresentacionGeneral"
+				},
+				{
+					"label": "Modelo conceptual",
+					"event": "mostrarModeloConceptual"
+				},
+				{
+					"label": "Esquema de la BD",
+					"event": "mostrarEsquemaBD"
+				},
+				{
+					"label": "Script creación de la BD",
+					"event": "mostrarScriptBD"
+				},
+				{
+					"label": "Arquitectura de referencia",
+					"event": "mostrarArqRef"
+				},
+				{
+					"label": "Javadoc Alohandes",
+					"event": "mostrarJavadoc"
+				}
+			]
+		},		
+		{ "menuTitle": "Acerca de ...",
+		  "options":
+			[
+				{
+					"label": "Acerca de ...",
+					"event": "acercaDe"
+				}
+			]
+		}		
+	]
+}
+	

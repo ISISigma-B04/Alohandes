@@ -15,7 +15,7 @@ import java.util.Set;
 
 @AutoService(Processor.class)
 @SupportedAnnotationTypes({"edu.uniandes.annotations.core.Data", "edu.uniandes.annotations.core.PK"})
-@SupportedSourceVersion(SourceVersion.RELEASE_19)
+@SupportedSourceVersion(SourceVersion.RELEASE_18)
 public class EntityManager extends AbstractProcessor {
     private Messager messager;
     private Filer filer;
