@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/node": "^20.2.4",
+    "faker": "^6.6.6",
+    "fs": "^0.0.1-security",
+    "oracledb": "^6.0.0"
+  }
+}

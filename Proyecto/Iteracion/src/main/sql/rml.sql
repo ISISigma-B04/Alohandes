@@ -1,67 +1,34 @@
-DELETE FROM group_reservation;
-
-DELETE FROM host_offer;
-
-DELETE FROM student_res_spec;
-
-DELETE FROM residence_spec;
-
-DELETE FROM service_scheme;
-
-DELETE FROM house_room_spec;
-
-DELETE FROM operator_service;
-
-DELETE FROM operator_spec;
-
-DELETE FROM rooms_hotel;
-
-DELETE FROM hotel_room_spec;
-
-DELETE FROM hotel;
-
-DELETE FROM hostel_spec;
-
-DELETE FROM apartment_spec;
-
-DELETE FROM client_preference;
-
-DELETE FROM client;
-
-DELETE FROM operator;
-
+TRUNCATE TABLE group_reservation;
+TRUNCATE TABLE host_offer;
+TRUNCATE TABLE student_res_spec;
+TRUNCATE TABLE residence_spec;
+TRUNCATE TABLE service_scheme;
+TRUNCATE TABLE house_room_spec;
+TRUNCATE TABLE operator_service;
+TRUNCATE TABLE operator_spec;
+TRUNCATE TABLE rooms_hotel;
+TRUNCATE TABLE hotel_room_spec;
+TRUNCATE TABLE hotel;
+TRUNCATE TABLE hostel_spec;
+TRUNCATE TABLE apartment_spec;
+TRUNCATE TABLE client_preference;
+TRUNCATE TABLE client;
+TRUNCATE TABLE operator;
 DROP SEQUENCE host_offer_id_seq;
-
 DROP SEQUENCE group_reservation_id_seq;
-
 DROP TABLE group_reservation;
-
 DROP TABLE host_offer;
-
 DROP TABLE residence_spec;
-
 DROP TABLE student_res_spec;
-
 DROP TABLE service_scheme;
-
 DROP TABLE house_room_spec;
-
 DROP TABLE operator_spec;
-
 DROP TABLE operator_service;
-
 DROP TABLE rooms_hotel;
-
 DROP TABLE hotel_room_spec;
-
 DROP TABLE hotel;
-
 DROP TABLE hostel_spec;
-
 DROP TABLE apartment_spec;
-
 DROP TABLE client_preference;
-
 DROP TABLE client;
-
 DROP TABLE operator;
