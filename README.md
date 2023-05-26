@@ -2,5 +2,5 @@
 ## Grupo B-04
 | Nombre          | Login      |
 |:----------------|:-----------|
-| Nicolas Camargo | n.camargop |
+| Raul Rincon     | r.rincon   |
 | Pedro Lobato    | p.lobato   |
