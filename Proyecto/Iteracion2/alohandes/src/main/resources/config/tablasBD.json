@@ -1,0 +1,22 @@
+{
+  "title": "Nombre de las tablas de Alohandes",
+  "unidadPersistencia": "Alohandes",
+  "tablas": [
+    "apartment_spec",
+    "booking",
+    "client",
+    "client_preference",
+    "hostel_spec",
+    "hotel",
+    "hotel_room_spec",
+    "house_room_spec",
+    "offer",
+    "operator",
+    "operator_service",
+    "operator_spec",
+    "residence_spec",
+    "rooms_hotel",
+    "service_scheme",
+    "student_res_spec"
+  ]
+}

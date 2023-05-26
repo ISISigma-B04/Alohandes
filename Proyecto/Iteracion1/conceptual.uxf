@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>342</x>
+      <y>108</y>
+      <w>108</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>OperatorSpec
+--
+-capacity: int
+-size: int
+-location: String
+-shared: boolean
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>513</x>
+      <y>243</y>
+      <w>126</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Operator
+--
+-name: String
+-type: OperatorType
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>324</x>
+      <y>324</y>
+      <w>126</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>OperatorService
+--
+-furnished: boolean
+-wifi: boolean
+-kitchenette: boolean
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>387</x>
+      <y>198</y>
+      <w>144</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r1=-spec
+m1=1</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;80.0;140.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>387</x>
+      <y>252</y>
+      <w>144</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-operator
+m1=1
+r1=-service
+m2=1</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;20.0;140.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>873</x>
+      <y>234</y>
+      <w>144</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>Client
+--
+-name: String
+-nuip: long
+-clientType: ClientType
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>342</y>
+      <w>126</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>ClientPreference
+--
+-furnished: boolean
+-shared: boolean
+-wifi: boolean
+-kitchenette: boolean
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>252</y>
+      <w>261</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>10.0;10.0;270.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>666</x>
+      <y>108</y>
+      <w>72</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>Booking
+--
+-cost: int
+-start: Date
+-end: Date
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>693</x>
+      <y>180</y>
+      <w>27</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>657</x>
+      <y>0</y>
+      <w>108</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>Offer
+--
+-costByNight: int
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>567</x>
+      <y>9</y>
+      <w>117</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..1
+r1=-offering
+r2=-associated
+m2=1</panel_attributes>
+    <additional_attributes>100.0;20.0;10.0;20.0;10.0;120.0;110.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>981</x>
+      <y>243</y>
+      <w>117</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r1=-client
+m1=1
+r2=-preference</panel_attributes>
+    <additional_attributes>40.0;20.0;110.0;20.0;110.0;140.0;10.0;140.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>378</x>
+      <y>459</y>
+      <w>126</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>StudentResSpec
+--
+-restaurant: int
+-studyRoom: int
+-recreationRoom: int
+-gym: int
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>675</x>
+      <y>270</y>
+      <w>135</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enumeration&gt;&gt;
+OperatorType
+--
+fontsize=12
+STUDENT_RESIDENCE
+RESIDENCE
+HOSTEL
+HOTEL_ROOM
+HOUSE_ROOM
+APARTMENT
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>360</x>
+      <y>567</y>
+      <w>144</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>ResidenceSpec
+--
+-bedroomNum: int
+-administrationFee: int
+-insuranceDesc: String
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>378</x>
+      <y>657</y>
+      <w>126</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>HostelSpec
+--
+-nit: long
+-openingHour: Date
+-closingHour: Date
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>333</x>
+      <y>747</y>
+      <w>171</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>HotelRoomSpec
+--
+-roomNumber: int
+-roomType: HotelRoomType
+-bathtub: boolean
+-yacuzzi: boolean
+-livingRoom: boolean
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>63</x>
+      <y>639</y>
+      <w>108</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>HotelRoomType
+--
+STANDARD
+SEMISUITE
+SUITE
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>45</x>
+      <y>729</y>
+      <w>126</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>Hotel
+--
+-nit: long
+-restaurant: boolean
+-pool: boolean
+-parkingLot: boolean
+-wifi: boolean
+-cableTV: boolean
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>342</x>
+      <y>864</y>
+      <w>162</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>HouseRoomSpec
+--
+-food: boolean
+-privateBathroom: boolean
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>36</x>
+      <y>864</y>
+      <w>135</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>ServiceScheme
+--
+-serviceName: String
+-servicesCost: int
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>342</x>
+      <y>936</y>
+      <w>162</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>ApartmentSpec
+--
+-includedServices: boolean
+-includedTV: boolean
+-administrationFee: int
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>297</y>
+      <w>189</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r1=-operator
+m1=1
+r2=-studentRes
+m2=0..1</panel_attributes>
+    <additional_attributes>130.0;10.0;130.0;230.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>396</y>
+      <w>135</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-residence
+m2=0..1</panel_attributes>
+    <additional_attributes>130.0;10.0;130.0;230.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>486</y>
+      <w>135</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-hostel
+m2=0..1</panel_attributes>
+    <additional_attributes>130.0;10.0;130.0;230.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>594</y>
+      <w>135</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-hotelR
+m2=0..1</panel_attributes>
+    <additional_attributes>130.0;10.0;130.0;230.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>693</y>
+      <w>135</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-houseR
+m2=0..1</panel_attributes>
+    <additional_attributes>130.0;10.0;130.0;230.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>765</y>
+      <w>135</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>lt=-
+r2=-apartment
+m2=0..1</panel_attributes>
+    <additional_attributes>130.0;10.0;130.0;230.0;10.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>162</x>
+      <y>873</y>
+      <w>198</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=*
+r1=-servicesScheme</panel_attributes>
+    <additional_attributes>10.0;20.0;200.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>162</x>
+      <y>810</y>
+      <w>189</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+r1=-hotel
+m2=1..*
+r2=-rooms</panel_attributes>
+    <additional_attributes>10.0;20.0;190.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>747</x>
+      <y>117</y>
+      <w>216</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>cost in COP without the last three 0s
+style=autoresize
+bg=gray
+fg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>873</x>
+      <y>180</y>
+      <w>324</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>nuip stands for Numero Unico de Identificacion Personal
+style=autoresize
+bg=gray
+fg=red</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1008</x>
+      <y>396</y>
+      <w>144</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>ClientType
+--
+STUDENT
+GRADUATE
+EMPLOYEE
+PROFESSOR
+STUDENT_RELATED
+GUESS_PROFESSOR
+EVENT_SIGNED
+style=autoresize</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
