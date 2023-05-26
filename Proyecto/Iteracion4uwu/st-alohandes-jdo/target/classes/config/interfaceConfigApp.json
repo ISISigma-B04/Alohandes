@@ -1,0 +1,271 @@
+{
+	"title": "Aplicación transaccional de Alohandes",
+	"frameH": 600,
+	"frameW": 800,
+	"bannerPath": "./src/main/resources/config/logo.png",
+	"menuBar":
+	[
+		{ "menuTitle": "Cliente",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarCliente"
+				},
+				{
+					"label": "Listar",
+					"event": "listarCliente"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarClienteId"
+				},
+				{
+					"label": "Buscar por Id",
+					"event": "buscarClienteId"
+				}
+			]
+		},
+		{ "menuTitle": "Operador",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarOperador"
+				},
+				{
+					"label": "Listar",
+					"event": "listarOperador"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarOperadorId"
+				}
+			]
+		},
+		{ "menuTitle": "Reserva",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarReserva"
+				},
+				{
+					"label": "Listar",
+					"event": "listarReserva"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarReservaId"
+				}
+			]
+		},
+		{ "menuTitle": "Apartamento",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarApartamento"
+				},
+				{
+					"label": "Listar",
+					"event": "listarApartamento"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarApartamentoId"
+				},
+				{
+					"label": "Habilitar",
+					"event": "habilitarApartamento"
+				},
+				{
+					"label": "Desabilitar",
+					"event": "deshabilitarApartamento"
+				},
+				{
+					"label": "Disponibles",
+					"event": "apartamentosDisponibles"
+				}
+			]
+		},
+		{ "menuTitle": "Propiedad",
+		  "options":
+			[
+				{
+					"label": "Listar",
+					"event": "listarPropiedad"
+				}
+			]
+		},
+		{ "menuTitle": "Habitacion",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarHabitacion"
+				},
+				{
+					"label": "Listar",
+					"event": "listarHabitacion"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarHabitacionId"
+				},
+				{
+					"label": "Habilitar",
+					"event": "habilitarHabitacion"
+				},
+				{
+					"label": "Desabilitar",
+					"event": "deshabilitarHabitacion"
+				},
+				{
+					"label": "Disponibles",
+					"event": "habitacionesDisponibles"
+				}
+			]
+		},
+		{ "menuTitle": "ReservaColectiva",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarReservaColectiva"
+				},
+				{
+					"label": "Listar",
+					"event": "listarReservaColectiva"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarReservaColectivaId"
+				}
+			]
+		},
+		{ "menuTitle": "Servicio",
+		  "options":
+			[
+				{
+					"label": "Adicionar",
+					"event": "adicionarServicio"
+				},
+				{
+					"label": "Listar",
+					"event": "listarServicio"
+				},
+				{
+					"label": "Borrar por Id",
+					"event": "eliminarServicioId"
+				}
+			]
+		},
+		{ "menuTitle": "Mantenimiento",
+		  "options":
+			[
+				{
+					"label": "Mostrar log Alohandes",
+					"event": "mostrarLogAlohandes"
+				},
+				{
+					"label": "Mostrar log datanucleus",
+					"event": "mostrarLogDatanuecleus"
+				},
+				{
+					"label": "Limpiar log de Alohandes",
+					"event": "limpiarLogAlohandes"
+				},
+				{
+					"label": "Limpiar log de datanucleus",
+					"event": "limpiarLogDatanucleus"
+				},
+				{
+					"label": "Limpiar Base de Datos",
+					"event": "limpiarBD"
+				}
+			]
+		},		
+		{ "menuTitle": "Documentación",
+		  "options":
+			[
+				{
+					"label": "Presentación general",
+					"event": "mostrarPresentacionGeneral"
+				},
+				{
+					"label": "Modelo conceptual",
+					"event": "mostrarModeloConceptual"
+				},
+				{
+					"label": "Esquema de la BD",
+					"event": "mostrarEsquemaBD"
+				},
+				{
+					"label": "Script creación de la BD",
+					"event": "mostrarScriptBD"
+				},
+				{
+					"label": "Arquitectura de referencia",
+					"event": "mostrarArqRef"
+				},
+				{
+					"label": "Javadoc Alohandes",
+					"event": "mostrarJavadoc"
+				}
+			]
+		},		
+		{ "menuTitle": "Requeriminetos ",
+		  "options":
+			[
+				{
+					"label": "RFC1 (Año Actual)",
+					"event": "darDineroAnioActual"
+				},
+				{
+					"label": "RFC1 (Año Corrido)",
+					"event": "darDineroAnioCorrido"
+				},
+				{
+					"label": "RFC12 (Mayor Ocupacion)",
+					"event": "darOfertaMayorOcupacion"
+				},
+				{
+					"label": "RFC12 (Menor Ocupacion)",
+					"event": "darOfertaMenorOcupacion"
+				},
+				{
+					"label": "RFC12 (Operador mas solicitado)",
+					"event": "darOperadorMasSolicitado"
+				},
+				{
+					"label": "RFC12 (Operador menos solicitado)",
+					"event": "darOperadorMenosSolicitado"
+				},
+				{
+					"label": "RFC13 (Buenos Clientes)",
+					"event": "darBuenosClientes"
+				},
+				{
+					"label": "Consumo SI",
+					"event": "consumoSI"
+				},
+				{
+					"label": "Consumo NO",
+					"event": "consumoNO"
+				}
+			]
+		},
+		{ "menuTitle": "Acerca de ...",
+		  "options":
+			[
+				{
+					"label": "Acerca de ...",
+					"event": "acercaDe"
+				}
+			]
+		}		
+		
+	]
+}
+	
