@@ -1,9 +1,9 @@
 from datetime import datetime
 from random import choice, randint
 from threading import Thread
+from faker import Faker
 from faker.providers import lorem
 from faker.providers import company
-from faker import Faker
 import json
 import cx_Oracle
 
@@ -13,11 +13,11 @@ class Populator:
     connection_driver_name: str
     connection_user_name: str
     connection_password: str
-    config_path = 'config.json'
+    config_path = ''
     fake = Faker()
 
     def __init__(self):
-        cx_Oracle.init_oracle_client(lib_dir=r".\instantclient_21_3")
+        cx_Oracle.init_oracle_client(lib_dir=r"C:\Oracle\instantclient_21_10")
         config_loaded = self.__load_json_config()
         if config_loaded:
             print("Bien")
@@ -25,16 +25,7 @@ class Populator:
             print("Mal")
 
     def __load_json_config(self) -> bool:
-        try:
-            with open(self.config_path) as json_file:
-                data = json.load(json_file)
-                self.connection_url = data['connectionURL']
-                self.connection_driver_name = data['connectionDriverName']
-                self.connection_user_name = data['connectionUserName']
-                self.connection_password = data['connectionPassword']
-                return True
-        except:
-            return False
+        return True
 
     def populate_a_usuario(self):
         connection = self.get_connection()
@@ -48,7 +39,6 @@ class Populator:
             cursor.execute(
                 f"INSERT INTO a_usuario (id,tipoid,login,relacionu) VALUES ({id},'{tipoid}','{login}','{relacionu}')")
             insertados.append(id)
-
         connection.commit()
         connection.close()
         return insertados
@@ -152,10 +142,10 @@ class Populator:
         connection.close()
 
     def get_connection(self):
-        return cx_Oracle.connect(user=self.connection_user_name, password=self.connection_password,
-                                 dsn=self.connection_url)
-
-
+        dsn_tns = cx_Oracle.makedsn('fn4.oracle.virtual.uniandes.edu.co', '1521', service_name='prod') # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
+        conn = cx_Oracle.connect(user=r'ISIS2304B28202310', password='LbyCVTywUGkk', dsn=dsn_tns) # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
+        return conn
+    
 populator = Populator()
 connection = populator.get_connection()
 cursor = connection.cursor()
