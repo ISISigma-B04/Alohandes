@@ -1,9 +1,9 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from random import choice, randint
-from threading import Thread
 from faker import Faker
 from faker.providers import lorem
 from faker.providers import company
+
 import json
 import cx_Oracle
 
@@ -25,16 +25,16 @@ class Populator:
         connection = self.__get_connection()
         cursor = connection.cursor()
         insertados = []
-        for i in range(0, 33000):
+        for i in range(33000):
             id = self.fake.unique.random_int(min=0, max=1000000)
-            tipoid = self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))
+            tipoid = self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0]
             login = self.fake.user_name()
             relacionu = self.fake.word()
 
             insert_query = f"INSERT INTO a_usuario (id, tipoid, login, relacionu) VALUES ({id}, '{tipoid}', '{login}'," \
                            f" '{relacionu}')"
-            cursor.execute(insert_query)
             insertados.append(id)
+            cursor.execute(insert_query)
         connection.commit()
         connection.close()
         return insertados
@@ -43,7 +43,7 @@ class Populator:
         connection = self.__get_connection()
         cursor = connection.cursor()
         for i in range(0, 33000):
-            id = choice(usuarios)[0]
+            id = choice(usuarios)
             numero_rnt = self.fake.unique.random_int(min=0, max=1000000)
             vencimiento_rnt = self.fake.date_between(start_date='-1y', end_date='today')
             registro_super_turismo = self.fake.word()
@@ -51,8 +51,8 @@ class Populator:
             categoria = self.fake.random_element(
                 elements=('HOTEL', 'HOSTAL', 'P_NATURAL', 'APARTAMENTO', 'VECINOS', 'VIVIENDA_U'))
             direccion = self.fake.address().replace("'", "''")
-            hora_apertura = self.fake.time_object(end_datetime=None).time()
-            hora_cierre = self.fake.time_object(end_datetime=None).time()
+            hora_apertura = datetime.fromtimestamp(self.fake.unix_time(end_datetime=datetime.now()))
+            hora_cierre = datetime.fromtimestamp(self.fake.unix_time(end_datetime=datetime.now()))
             tiempo_minimo = self.fake.random_int(min=1, max=24)
             ganancia_anio_actual = self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
             ganancia_anio_corrido = self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
@@ -88,8 +88,8 @@ class Populator:
                            f" piso, habilitada, operador) " \
                            f"VALUES ({id}, {capacidad}, {precio}, {tamanio}, {dias_reservados}," \
                            f" TO_DATE('{fecha_creacion}', 'YYYY-MM-DD'), {piso}, {habilitada}, '{operador}')"
-            cursor.execute(insert_query)
             insertados.append(id)
+            cursor.execute(insert_query)
 
         connection.commit()
         connection.close()
@@ -110,8 +110,8 @@ class Populator:
             insert_query = f"INSERT INTO a_reservacolectiva (id, fecha_inicio, duracion, cantidad, tipo, cliente) " \
                            f"VALUES ({id}, TO_DATE('{fecha_inicio}', 'YYYY-MM-DD'), {duracion}, {cantidad}," \
                            f" '{tipo}', {cliente})"
-            cursor.execute(insert_query)
             insertados[i] = id
+            cursor.execute(insert_query)
         connection.commit()
         connection.close()
         return insertados
@@ -121,14 +121,15 @@ class Populator:
         cursor = connection.cursor()
         for i in range(0, 33000):
             id = self.fake.unique.random_int(min=0, max=1000000)
-            fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1y')
-            fecha_fin = self.fake.date_between(start_date=fecha_inicio, end_date='+1m')
+            fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m')
+            fecha_fin = self.fake.date_between(start_date=fecha_inicio, end_date='+5m')
             personas = self.fake.random_int(min=1, max=10)
-            fin_cancelacion_oportuna = self.fake.date_between(start_date='-30d', end_date=fecha_inicio)
+            fin_cancelacion_oportuna = self.fake.date_between(start_date=fecha_inicio - timedelta(days=30),
+                                                         end_date=fecha_inicio)
             porcentaje_a_pagar = self.fake.random_int(min=0, max=100)
             monto_total = self.fake.random_int(min=100, max=1000)
-            propiedad = choice(ofertas)[0]
-            colectiva = choice(colectivas)[0]
+            propiedad = choice(ofertas)
+            colectiva = choice(colectivas)
 
             insert_query = f"INSERT INTO a_reserva (id, fecha_inicio, fecha_fin, personas, fin_cancelacion_oportuna," \
                            f" porcentaje_a_pagar, monto_total, propiedad, colectiva) " \
