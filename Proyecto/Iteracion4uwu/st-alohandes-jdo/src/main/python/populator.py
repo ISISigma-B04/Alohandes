@@ -8,6 +8,7 @@ import json
 import cx_Oracle
 
 
+# noinspection SqlNoDataSourceInspection
 class Populator:
     connection_url: str
     connection_driver_name: str
@@ -18,10 +19,10 @@ class Populator:
 
     def __init__(self):
         cx_Oracle.init_oracle_client(lib_dir=r"C:\Oracle\instantclient_21_10")
-        self.get_connection()
+        self.__get_connection()
 
     def populate_a_usuario(self):
-        connection = self.get_connection()
+        connection = self.__get_connection()
         cursor = connection.cursor()
         insertados = []
         for i in range(0, 33000):
@@ -39,7 +40,7 @@ class Populator:
         return insertados
 
     def populate_a_operador(self, usuarios):
-        connection = self.get_connection()
+        connection = self.__get_connection()
         cursor = connection.cursor()
         for i in range(0, 33000):
             id = choice(usuarios)[0]
@@ -69,7 +70,7 @@ class Populator:
         connection.close()
 
     def populate_a_oferta(self, usuarios):
-        connection = self.get_connection()
+        connection = self.__get_connection()
         cursor = connection.cursor()
         insertados = []
         for i in range(0, 33000):
@@ -95,7 +96,7 @@ class Populator:
         return insertados
 
     def populate_a_reservacolectiva(self):
-        connection = self.get_connection()
+        connection = self.__get_connection()
         cursor = connection.cursor()
         insertados = ['null'] * 33000
         for i in range(0, 100):
@@ -116,7 +117,7 @@ class Populator:
         return insertados
 
     def populate_a_reserva(self, ofertas, colectivas):
-        connection = self.get_connection()
+        connection = self.__get_connection()
         cursor = connection.cursor()
         for i in range(0, 33000):
             id = self.fake.unique.random_int(min=0, max=1000000)
@@ -139,10 +140,12 @@ class Populator:
         connection.commit()
         connection.close()
 
-    def get_connection(self):
-        dsn_tns = cx_Oracle.makedsn('fn4.oracle.virtual.uniandes.edu.co', '1521', service_name='prod') # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
-        conn = cx_Oracle.connect(user=r'ISIS2304B28202310', password='LbyCVTywUGkk', dsn=dsn_tns) # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
-        if (conn.ping() is None):
+    def __get_connection(self):
+        # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
+        # For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
+        dsn_tns = cx_Oracle.makedsn('fn4.oracle.virtual.uniandes.edu.co', '1521', service_name='prod')
+        conn = cx_Oracle.connect(user=r'ISIS2304B28202310', password='LbyCVTywUGkk', dsn=dsn_tns)
+        if conn.ping() is None:
             print("Conexion exitosa")
         else:
             print("Conexion fallida")
@@ -150,9 +153,7 @@ class Populator:
 
 
 populator = Populator()
-connection = populator.get_connection()
-cursor = connection.cursor()
 usuarios = populator.populate_a_usuario()
 populator.populate_a_operador(usuarios)
 oferta = populator.populate_a_oferta(usuarios)
-connection.close()
+print("Se pudo mano, a disfrutar")
