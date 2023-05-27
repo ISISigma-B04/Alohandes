@@ -45,14 +45,14 @@ class Populator:
         for i in range(0, 33000):
             id = choice(usuarios)
             numero_rnt = self.fake.unique.random_int(min=0, max=1000000)
-            vencimiento_rnt = self.fake.date_between(start_date='-1y', end_date='today')
+            vencimiento_rnt = self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d")
             registro_super_turismo = self.fake.word()
-            vencimiento_registro_st = self.fake.date_between(start_date='-1y', end_date='today')
+            vencimiento_registro_st = self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d")
             categoria = self.fake.random_element(
                 elements=('HOTEL', 'HOSTAL', 'P_NATURAL', 'APARTAMENTO', 'VECINOS', 'VIVIENDA_U'))
             direccion = self.fake.address().replace("'", "''")
-            hora_apertura = datetime.fromtimestamp(self.fake.unix_time(end_datetime=datetime.now()))
-            hora_cierre = datetime.fromtimestamp(self.fake.unix_time(end_datetime=datetime.now()))
+            hora_apertura = datetime.fromtimestamp(self.fake.unix_time(end_datetime=datetime.now())).strftime("%H:%M:%S")
+            hora_cierre = datetime.fromtimestamp(self.fake.unix_time(end_datetime=datetime.now())).strftime("%H:%M:%S")
             tiempo_minimo = self.fake.random_int(min=1, max=24)
             ganancia_anio_actual = self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
             ganancia_anio_corrido = self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
@@ -79,7 +79,7 @@ class Populator:
             precio = self.fake.random_int(min=1, max=1000)
             tamanio = self.fake.random_int(min=1, max=1000)
             dias_reservados = self.fake.random_int(min=1, max=30)
-            fecha_creacion = self.fake.date_between(start_date='-1y', end_date='today')
+            fecha_creacion = self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d")
             piso = self.fake.random_int(min=1, max=10)
             habilitada = self.fake.random_int(min=0, max=1)
             operador = choice(usuarios)
@@ -101,7 +101,7 @@ class Populator:
         insertados = ['null'] * 33000
         for i in range(0, 100):
             id = self.fake.unique.random_int(min=0, max=100)
-            fecha_inicio = self.fake.date_between(start_date='-1y', end_date='+1y')
+            fecha_inicio = self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d")
             duracion = self.fake.random_int(min=1, max=30)
             cantidad = self.fake.random_int(min=1, max=10)
             tipo = self.fake.random_element(elements=('APARTAMENTO', 'HABITACION'))
@@ -121,11 +121,11 @@ class Populator:
         cursor = connection.cursor()
         for i in range(0, 33000):
             id = self.fake.unique.random_int(min=0, max=1000000)
-            fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m')
-            fecha_fin = self.fake.date_between(start_date=fecha_inicio, end_date='+5m')
+            fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m').strftime("%Y-%m-%d")
+            fecha_fin = self.fake.date_between(start_date=fecha_inicio, end_date='+5m').strftime("%Y-%m-%d")
             personas = self.fake.random_int(min=1, max=10)
             fin_cancelacion_oportuna = self.fake.date_between(start_date=fecha_inicio - timedelta(days=30),
-                                                         end_date=fecha_inicio)
+                                                         end_date=fecha_inicio).strftime("%Y-%m-%d")
             porcentaje_a_pagar = self.fake.random_int(min=0, max=100)
             monto_total = self.fake.random_int(min=100, max=1000)
             propiedad = choice(ofertas)
