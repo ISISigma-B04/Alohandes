@@ -18,6 +18,7 @@ class Populator:
 
     def __init__(self):
         cx_Oracle.init_oracle_client(lib_dir=r"C:\Oracle\instantclient_21_10")
+        self.get_connection()
 
     def populate_a_usuario(self):
         connection = self.get_connection()
@@ -139,10 +140,12 @@ class Populator:
         connection.close()
 
     def get_connection(self):
-        dsn_tns = cx_Oracle.makedsn('fn4.oracle.virtual.uniandes.edu.co', '1521',
-                                    service_name='prod')  # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
-        conn = cx_Oracle.connect(user=r'ISIS2304B28202310', password='LbyCVTywUGkk',
-                                 dsn=dsn_tns)  # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
+        dsn_tns = cx_Oracle.makedsn('fn4.oracle.virtual.uniandes.edu.co', '1521', service_name='prod') # if needed, place an 'r' before any parameter in order to address special characters such as '\'.
+        conn = cx_Oracle.connect(user=r'ISIS2304B28202310', password='LbyCVTywUGkk', dsn=dsn_tns) # if needed, place an 'r' before any parameter in order to address special characters such as '\'. For example, if your user name contains '\', you'll need to place 'r' before the user name: user=r'User Name'
+        if (conn.ping() is None):
+            print("Conexion exitosa")
+        else:
+            print("Conexion fallida")
         return conn
 
 
