@@ -28,7 +28,7 @@ class Populator:
         for i in range(33000):
             id = self.fake.unique.random_int(min=0, max=1000000)
             tipoid = self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0]
-            login = self.fake.user_name()
+            login = self.fake.unique.user_name()
             relacionu = self.fake.word()
 
             insert_query = f"INSERT INTO a_usuario (id, tipoid, login, relacionu) VALUES ({id}, '{tipoid}', '{login}'," \
