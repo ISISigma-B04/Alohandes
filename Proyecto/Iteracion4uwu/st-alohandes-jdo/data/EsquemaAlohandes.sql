@@ -1,288 +1,300 @@
---- Sentencias SQL para la creación del esquema de parranderos
+--- Sentencias SQL para la creación del esquema de alohandes
 --- Las tablas tienen prefijo A_ para facilitar su acceso desde SQL Developer
 
--- USO
--- Copie el contenido de este archivo en una pestaña SQL de SQL Developer
--- Ejecútelo como un script - Utilice el botón correspondiente de la pestaña utilizada
-
 -- Creación del secuenciador
-create sequence alohandes_sequence;
+CREATE SEQUENCE alohandes_sequence;
 
 -- Creación de la tabla USUARIO y especificación de sus restricciones
-CREATE TABLE A_USUARIO
-   (ID NUMBER, 
-    TIPOID VARCHAR2(255 BYTE),
-    LOGIN VARCHAR2(255 BYTE), 
-    RELACIONU VARCHAR2(255 BYTE),
-    CONSTRAINT A_USUARIO_PK PRIMARY KEY (LOGIN));
+CREATE TABLE a_usuario
+(
+    id        NUMBER,
+    tipoid    VARCHAR2(255 BYTE),
+    login     VARCHAR2(255 BYTE),
+    relacionu VARCHAR2(255 BYTE),
+    CONSTRAINT a_usuario_pk PRIMARY KEY (login)
+);
 
-ALTER TABLE A_USUARIO
-	ADD CONSTRAINT CS_U_TIPOID 
-	CHECK (TIPOID IN ('CARNET_U', 'CEDULA', 'PASAPORTE'))
-ENABLE;
+ALTER TABLE a_usuario
+    ADD CONSTRAINT cs_u_tipoid
+        CHECK (tipoid IN ('CARNET_U', 'CEDULA', 'PASAPORTE'))
+            ENABLE;
 
-CREATE INDEX idx_login ON A_USUARIO (TIPOID);
+CREATE INDEX idx_login ON a_usuario (tipoid);
 
 -- Creación de la tabla OPERADOR y especificación de sus restricciones
-CREATE TABLE A_OPERADOR
-   (ID VARCHAR(255),
-    NUMERO_RNT NUMBER,
-    VENCIMIENTO_RNT DATE,
-    REGISTRO_SUPER_TURISMO VARCHAR(255),
-    VENCIMIENTO_REGISTRO_ST DATE,
-    CATEGORIA VARCHAR(255),
-    DIRECCION VARCHAR(511),
-    HORA_APERTURA DATE,
-    HORA_CIERRE DATE,
-    TIEMPO_MINIMO NUMBER,
-    GANANCIA_ANIO_ACTUAL NUMBER,
-    GANANCIA_ANIO_CORRIDO NUMBER,
-    CONSTRAINT A_OPERADOR_PK PRIMARY KEY (ID));
+CREATE TABLE a_operador
+(
+    id                      VARCHAR(255),
+    numero_rnt              NUMBER,
+    vencimiento_rnt         DATE,
+    registro_super_turismo  VARCHAR(255),
+    vencimiento_registro_st DATE,
+    categoria               VARCHAR(255),
+    direccion               VARCHAR(511),
+    hora_apertura           DATE,
+    hora_cierre             DATE,
+    tiempo_minimo           NUMBER,
+    ganancia_anio_actual    NUMBER,
+    ganancia_anio_corrido   NUMBER,
+    CONSTRAINT a_operador_pk PRIMARY KEY (id)
+);
 
-ALTER TABLE A_OPERADOR
-	ADD CONSTRAINT FK_V0_USUARIO
-        FOREIGN KEY (ID)
-	REFERENCES A_USUARIO(LOGIN)
-ENABLE;
+ALTER TABLE a_operador
+    ADD CONSTRAINT fk_v0_usuario
+        FOREIGN KEY (id)
+            REFERENCES a_usuario (login)
+                ENABLE;
 
-ALTER TABLE A_OPERADOR
-	ADD CONSTRAINT UN_NUMERO_RNT 
-	UNIQUE (NUMERO_RNT)
-ENABLE;
+ALTER TABLE a_operador
+    ADD CONSTRAINT un_numero_rnt
+        UNIQUE (numero_rnt)
+            ENABLE;
 
-ALTER TABLE A_OPERADOR
-	ADD CONSTRAINT CK_CATEGORIA
-	CHECK (CATEGORIA IN ('HOTEL', 'HOSTAL', 'P_NATURAL', 'APARTAMENTO', 'VECINOS', 'VIVIENDA_U'))
-ENABLE;
+ALTER TABLE a_operador
+    ADD CONSTRAINT ck_categoria
+        CHECK (categoria IN ('HOTEL', 'HOSTAL', 'P_NATURAL', 'APARTAMENTO', 'VECINOS', 'VIVIENDA_U'))
+            ENABLE;
 
-ALTER TABLE A_OPERADOR
-	ADD CONSTRAINT CS_TIEMPO_MINIMO 
-	CHECK (TIEMPO_MINIMO > 0)
-ENABLE;
+ALTER TABLE a_operador
+    ADD CONSTRAINT cs_tiempo_minimo
+        CHECK (tiempo_minimo > 0)
+            ENABLE;
 
 
 -- Creación de la tabla CLIENTE y especificación de sus restricciones
-CREATE TABLE A_CLIENTE
-   (ID VARCHAR(255 BYTE), 
-    MEDIOPAGO VARCHAR(255 BYTE),
-    CONSTRAINT A_CLIENTE_PK PRIMARY KEY (ID));
-	
-ALTER TABLE A_CLIENTE
-	ADD CONSTRAINT FK_V1_USUARIO
-        FOREIGN KEY (ID)
-	REFERENCES A_USUARIO(LOGIN)
-ENABLE;
+CREATE TABLE a_cliente
+(
+    id        VARCHAR(255 BYTE),
+    mediopago VARCHAR(255 BYTE),
+    CONSTRAINT a_cliente_pk PRIMARY KEY (id)
+);
+
+ALTER TABLE a_cliente
+    ADD CONSTRAINT fk_v1_usuario
+        FOREIGN KEY (id)
+            REFERENCES a_usuario (login)
+                ENABLE;
 
 -- Creación de la tabla PROPIEDAD y especificación de sus restricciones
 
-CREATE TABLE A_PROPIEDAD
-   (ID NUMBER, 
-	CAPACIDAD NUMBER, 
-	PRECIO NUMBER, 
-	TAMANIO NUMBER, 
-	DIAS_RESERVADOS NUMBER, 
-	FECHA_CREACION DATE, 
-	PISO NUMBER,
-    HABILITADA NUMBER(1,0),
-    OPERADOR VARCHAR(255 BYTE),
-    CONSTRAINT A_PROPIEDAD_PK PRIMARY KEY (ID) 
-     );
-     
-ALTER TABLE A_PROPIEDAD
-	ADD CONSTRAINT FK_V2_USUARIO
-        FOREIGN KEY (OPERADOR)
-	REFERENCES A_USUARIO(LOGIN)
-ENABLE;
+CREATE TABLE a_oferta
+(
+    id              NUMBER,
+    capacidad       NUMBER,
+    precio          NUMBER,
+    tamanio         NUMBER,
+    dias_reservados NUMBER,
+    fecha_creacion  DATE,
+    piso            NUMBER,
+    habilitada      NUMBER(1, 0),
+    operador        VARCHAR(255 BYTE),
+    CONSTRAINT a_propiedad_pk PRIMARY KEY (id)
+);
 
-ALTER TABLE A_PROPIEDAD
-	ADD CONSTRAINT CK_CAPACIDAD 
-	CHECK (CAPACIDAD > 0)
-ENABLE;
+ALTER TABLE a_oferta
+    ADD CONSTRAINT fk_v2_usuario
+        FOREIGN KEY (operador)
+            REFERENCES a_usuario (login)
+                ENABLE;
 
-ALTER TABLE A_PROPIEDAD
-	ADD CONSTRAINT CK_PRECIO
-	CHECK (PRECIO > 0)
-ENABLE;
+ALTER TABLE a_oferta
+    ADD CONSTRAINT ck_capacidad
+        CHECK (capacidad > 0)
+            ENABLE;
 
-ALTER TABLE A_PROPIEDAD
-	ADD CONSTRAINT CK_TAMANIO
-	CHECK (TAMANIO > 0)
-ENABLE;
+ALTER TABLE a_oferta
+    ADD CONSTRAINT ck_precio
+        CHECK (precio > 0)
+            ENABLE;
 
-CREATE INDEX idx_propiedad ON A_PROPIEDAD (ID);
+ALTER TABLE a_oferta
+    ADD CONSTRAINT ck_tamanio
+        CHECK (tamanio > 0)
+            ENABLE;
+
+CREATE INDEX idx_propiedad ON a_oferta (id);
 
 -- Creación de la tabla HABITACION y especificación de sus restricciones
- CREATE TABLE  A_HABITACION
-   (ID NUMBER, 
-	TIPO NUMBER,
-        OPERADOR VARCHAR(250 BYTE),
-	INDIVIDUAL NUMBER(1,0), 
-	ESQUEMA VARCHAR(250 BYTE), 
-    CONSTRAINT A_HABITACION_PK PRIMARY KEY (ID) 
-     );
-     
-ALTER TABLE A_HABITACION
-	ADD CONSTRAINT FK_V3_USUARIO
-        FOREIGN KEY (OPERADOR)
-	REFERENCES A_USUARIO(LOGIN)
-ENABLE;
+CREATE TABLE a_habitacion
+(
+    id         NUMBER,
+    tipo       NUMBER,
+    operador   VARCHAR(250 BYTE),
+    individual NUMBER(1, 0),
+    esquema    VARCHAR(250 BYTE),
+    CONSTRAINT a_habitacion_pk PRIMARY KEY (id)
+);
 
-ALTER TABLE A_HABITACION
-	ADD CONSTRAINT FK_V0_PROPIEDAD
-        FOREIGN KEY (ID)
-	REFERENCES A_PROPIEDAD(ID)
-ENABLE;
+ALTER TABLE a_habitacion
+    ADD CONSTRAINT fk_v3_usuario
+        FOREIGN KEY (operador)
+            REFERENCES a_usuario (login)
+                ENABLE;
 
-ALTER TABLE A_HABITACION
-	ADD CONSTRAINT CS_U_TIPOHAB
-	CHECK (TIPO IN (1,2,0))
-ENABLE;
+ALTER TABLE a_habitacion
+    ADD CONSTRAINT fk_v0_propiedad
+        FOREIGN KEY (id)
+            REFERENCES a_oferta (id)
+                ENABLE;
+
+ALTER TABLE a_habitacion
+    ADD CONSTRAINT cs_u_tipohab
+        CHECK (tipo IN (1, 2, 0))
+            ENABLE;
 
 -- Creación de la tabla APARTAMENTO y especificación de sus restricciones
-CREATE TABLE A_APARTAMENTO
-   (ID NUMBER,
-        OPERADOR VARCHAR(250 BYTE),
-	AMUEBLADO NUMBER(1,0), 
-	HABITACIONES NUMBER, 
-	DESCRIPCION_MENAJE VARCHAR2(250 BYTE), 
-	DESCRIPCION_SEGURO VARCHAR2(250 BYTE), 
-	TIENE_SEGURO NUMBER(1,0),
-	CONSTRAINT A_APARTAMENTO_PK PRIMARY KEY (ID)
-   );
-   
-ALTER TABLE A_APARTAMENTO
-	ADD CONSTRAINT FK_V4_USUARIO
-        FOREIGN KEY (OPERADOR)
-	REFERENCES A_USUARIO(LOGIN)
-ENABLE;
-   
-ALTER TABLE A_APARTAMENTO
-	ADD CONSTRAINT FK_V1_PROPIEDAD
-        FOREIGN KEY (ID)
-	REFERENCES A_PROPIEDAD(ID)
-ENABLE;
+CREATE TABLE a_apartamento
+(
+    id                 NUMBER,
+    operador           VARCHAR(250 BYTE),
+    amueblado          NUMBER(1, 0),
+    habitaciones       NUMBER,
+    descripcion_menaje VARCHAR2(250 BYTE),
+    descripcion_seguro VARCHAR2(250 BYTE),
+    tiene_seguro       NUMBER(1, 0),
+    CONSTRAINT a_apartamento_pk PRIMARY KEY (id)
+);
 
-ALTER TABLE A_APARTAMENTO
-	ADD CONSTRAINT CK_HABITACIONES 
-	CHECK (HABITACIONES > 0)
-ENABLE;
+ALTER TABLE a_apartamento
+    ADD CONSTRAINT fk_v4_usuario
+        FOREIGN KEY (operador)
+            REFERENCES a_usuario (login)
+                ENABLE;
+
+ALTER TABLE a_apartamento
+    ADD CONSTRAINT fk_v1_propiedad
+        FOREIGN KEY (id)
+            REFERENCES a_oferta (id)
+                ENABLE;
+
+ALTER TABLE a_apartamento
+    ADD CONSTRAINT ck_habitaciones
+        CHECK (habitaciones > 0)
+            ENABLE;
 
 -- Creación de la tabla SERVICIO y especificación de sus restricciones
-CREATE TABLE A_SERVICIO 
-   (ID NUMBER, 
-	TIPO VARCHAR(250 BYTE), 
-	PRECIO NUMBER, 
-	INTERVALO_PAGO NUMBER,
-    PROPIEDAD NUMBER,
-    CONSTRAINT A_SERVICIO_PK PRIMARY KEY (ID)
-    );
+CREATE TABLE a_servicio
+(
+    id             NUMBER,
+    tipo           VARCHAR(250 BYTE),
+    precio         NUMBER,
+    intervalo_pago NUMBER,
+    propiedad      NUMBER,
+    CONSTRAINT a_servicio_pk PRIMARY KEY (id)
+);
 
-ALTER TABLE A_SERVICIO
-	ADD CONSTRAINT FK_V2_PROPIEDAD
-        FOREIGN KEY (PROPIEDAD)
-	REFERENCES A_PROPIEDAD(ID)
-ENABLE;
+ALTER TABLE a_servicio
+    ADD CONSTRAINT fk_v2_propiedad
+        FOREIGN KEY (propiedad)
+            REFERENCES a_oferta (id)
+                ENABLE;
 
-ALTER TABLE A_SERVICIO
-	ADD CONSTRAINT CK_PRECIOS
-	CHECK (PRECIO >= 0)
-ENABLE;
+ALTER TABLE a_servicio
+    ADD CONSTRAINT ck_precios
+        CHECK (precio >= 0)
+            ENABLE;
 
 -- Creaación de la tabla RESERVA COLECTIVA y especificación de sus restricciones
-CREATE TABLE A_RESERVACOLECTIVA
-   (ID NUMBER, 
-    FECHA_INICIO DATE,
-    DURACION NUMBER,
-    CANTIDAD NUMBER,
-    TIPO VARCHAR(255 BYTE),
-    CLIENTE VARCHAR(255 BYTE),
-    CONSTRAINT A_RESERVA_PK PRIMARY KEY (ID)
-    );
+CREATE TABLE a_reservacolectiva
+(
+    id           NUMBER,
+    fecha_inicio DATE,
+    duracion     NUMBER,
+    cantidad     NUMBER,
+    tipo         VARCHAR(255 BYTE),
+    cliente      VARCHAR(255 BYTE),
+    CONSTRAINT a_reserva_pk PRIMARY KEY (id)
+);
 
-ALTER TABLE A_RESERVACOLECTIVA
-	ADD CONSTRAINT CK_CANTIDAD
-	CHECK (CANTIDAD > 0)
-ENABLE;
+ALTER TABLE a_reservacolectiva
+    ADD CONSTRAINT ck_cantidad
+        CHECK (cantidad > 0)
+            ENABLE;
 
-ALTER TABLE A_RESERVACOLECTIVA
-	ADD CONSTRAINT FK_V0_CLIENTE
-        FOREIGN KEY (CLIENTE)
-	REFERENCES A_CLIENTE(ID)
-ENABLE;
-ALTER TABLE A_RESERVACOLECTIVA
-    ADD CONSTRAINT CK_TIPORC
-    CHECK (TIPO IN ('APARTAMENTO','HABITACION')
-ENABLE;
+ALTER TABLE a_reservacolectiva
+    ADD CONSTRAINT fk_v0_cliente
+        FOREIGN KEY (cliente)
+            REFERENCES a_cliente (id)
+                ENABLE;
+
+ALTER TABLE a_reservacolectiva
+    ADD CONSTRAINT ck_tiporc
+        CHECK (tipo IN ('APARTAMENTO', 'HABITACION'))
+            ENABLE;
 -- Creaación de la tabla RESERVA y especificación de sus restricciones
-CREATE TABLE A_RESERVA
-   (ID NUMBER, 
-    FECHA_INICIO DATE,
-    FECHA_FIN DATE,
-    PERSONAS NUMBER,
-    FIN_CANCELACION_OPORTUNA DATE,
-    PORCENTAJE_A_PAGAR NUMBER,
-    MONTO_TOTAL NUMBER,
-    PROPIEDAD NUMBER,
-    COLECTIVA NUMBER,
-    CONSTRAINT A_RESERVAI_PK PRIMARY KEY (ID));
+CREATE TABLE a_reserva
+(
+    id                       NUMBER,
+    fecha_inicio             DATE,
+    fecha_fin                DATE,
+    personas                 NUMBER,
+    fin_cancelacion_oportuna DATE,
+    porcentaje_a_pagar       NUMBER,
+    monto_total              NUMBER,
+    propiedad                NUMBER,
+    colectiva                NUMBER,
+    CONSTRAINT a_reservai_pk PRIMARY KEY (id)
+);
 
-ALTER TABLE A_RESERVA
-	ADD CONSTRAINT CK_PERSONAS
-	CHECK (PERSONAS > 0)
-ENABLE;
+ALTER TABLE a_reserva
+    ADD CONSTRAINT ck_personas
+        CHECK (personas > 0)
+            ENABLE;
 
-ALTER TABLE A_RESERVA
-	ADD CONSTRAINT FK_V3_PROPIEDAD
-        FOREIGN KEY (PROPIEDAD)
-	REFERENCES A_PROPIEDAD(ID)
-ENABLE;
+ALTER TABLE a_reserva
+    ADD CONSTRAINT fk_v3_propiedad
+        FOREIGN KEY (propiedad)
+            REFERENCES a_oferta (id)
+                ENABLE;
 
-ALTER TABLE A_RESERVA
-	ADD CONSTRAINT FK_V_RESERVACOLECTIVA
-        FOREIGN KEY (COLECTIVA)
-	REFERENCES A_RESERVACOLECTIVA(ID)
-ENABLE;
+ALTER TABLE a_reserva
+    ADD CONSTRAINT fk_v_reservacolectiva
+        FOREIGN KEY (colectiva)
+            REFERENCES a_reservacolectiva (id)
+                ENABLE;
 
-CREATE INDEX idx_reserva ON A_RESERVA (ID);
+CREATE INDEX idx_reserva ON a_reserva (id);
 
 
 -- Creaación de la tabla RESERVAAPARTAMENTO y especificación de sus restricciones
-CREATE TABLE A_RESERVAAPARTAMENTO
-  (ID_APARTAMENTO NUMBER,
-   ID_RESERVA NUMBER,
-   CONSTRAINT A_RESERVAA_PK PRIMARY KEY (ID_APARTAMENTO, ID_RESERVA)
-   );
-   
-ALTER TABLE A_RESERVAAPARTAMENTO
-ADD CONSTRAINT FK_V_APARTAMENTO
-    FOREIGN KEY (ID_APARTAMENTO)
-    REFERENCES A_APARTAMENTO(ID)
-ENABLE;
+CREATE TABLE a_reservaapartamento
+(
+    id_apartamento NUMBER,
+    id_reserva     NUMBER,
+    CONSTRAINT a_reservaa_pk PRIMARY KEY (id_apartamento, id_reserva)
+);
 
-ALTER TABLE A_RESERVAAPARTAMENTO
-ADD CONSTRAINT FK_V0_RESERVA
-    FOREIGN KEY (ID_RESERVA)
-    REFERENCES A_RESERVA(ID)
-ENABLE;
+ALTER TABLE a_reservaapartamento
+    ADD CONSTRAINT fk_v_apartamento
+        FOREIGN KEY (id_apartamento)
+            REFERENCES a_apartamento (id)
+                ENABLE;
+
+ALTER TABLE a_reservaapartamento
+    ADD CONSTRAINT fk_v0_reserva
+        FOREIGN KEY (id_reserva)
+            REFERENCES a_reserva (id)
+                ENABLE;
 
 -- Creación de la tabla RESERVAHABITACION y especificación de sus restricciones
-CREATE TABLE A_RESERVAHABITACION
-  (ID_HABITACION NUMBER,
-   ID_RESERVA NUMBER,
-  CONSTRAINT A_RESERVAH_PK PRIMARY KEY (ID_HABITACION, ID_RESERVA)
-  );
+CREATE TABLE a_reservahabitacion
+(
+    id_habitacion NUMBER,
+    id_reserva    NUMBER,
+    CONSTRAINT a_reservah_pk PRIMARY KEY (id_habitacion, id_reserva)
+);
 
-ALTER TABLE A_RESERVAHABITACION
-ADD CONSTRAINT FK_V_HABITACION
-    FOREIGN KEY (ID_HABITACION)
-    REFERENCES A_HABITACION(ID)
-ENABLE;
+ALTER TABLE a_reservahabitacion
+    ADD CONSTRAINT fk_v_habitacion
+        FOREIGN KEY (id_habitacion)
+            REFERENCES a_habitacion (id)
+                ENABLE;
 
-ALTER TABLE A_RESERVAHABITACION
-ADD CONSTRAINT FK_V1_RESERVA
-    FOREIGN KEY (ID_RESERVA)
-    REFERENCES A_RESERVA(ID)
-ENABLE;
+ALTER TABLE a_reservahabitacion
+    ADD CONSTRAINT fk_v1_reserva
+        FOREIGN KEY (id_reserva)
+            REFERENCES a_reserva (id)
+                ENABLE;
 
 
 

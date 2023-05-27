@@ -44,4 +44,5 @@ class Populator:
     #TODO: USUARIO, RESERVA, OFERTA (CLIENT, RESERVATION, HOST_OFFER)
     def __populate_cliente(self, connection, cursor)->None:
         for i in range(0, 15000):
+
             cursor.execute(f"INSERT INTO client nuip, name, client_type VALUES ({self.fake.unique.random_int},{self.fake.bs()})")
