@@ -12,7 +12,8 @@ class Populator:
     connection_user_name: str
     connection_password: str
     fake = Faker()
-    range: range
+    start: int
+    end: int
 
     def __init__(self):
         self.end = 170000
@@ -36,17 +37,21 @@ class Populator:
                            "VALUES (:id, :tipoid, :login, :relacionu)"
             data = []
 
-            for _ in range(0, self.end):
-                data.append({
-                    'id': self.fake.unique.random_int(min=0, max=1000000),
-                    'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
-                    'login': 'login' + str(_),
-                    'relacionu': self.fake.random_choices(elements=(
-                        'ESTUDIANTE', 'EGRESADO', 'EMPLEADO', 'PROFESOR', 'FAMILIAR', 'PROFESOR INVITADO',
-                        'VISITANTE EVENTO'))[0]
-                })
-                # print(data)
-                print("Llevamos " + str(_) + " usuarios")
+            for i in range(self.start, self.end):
+                try:
+                    data.append({
+                        'id': self.fake.unique.random_int(min=0, max=1000000),
+                        'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
+                        'login': 'login' + str(i),
+                        'relacionu': self.fake.random_choices(elements=(
+                            'ESTUDIANTE', 'EGRESADO', 'EMPLEADO', 'PROFESOR', 'FAMILIAR', 'PROFESOR INVITADO',
+                            'VISITANTE EVENTO'))[0]
+                    })
+                    # print(data)
+                    print("Llevamos " + str(i) + " usuarios")
+                except IndexError:
+                    print(i)
+                    break
 
             cursor.executemany(insert_query, data)
         conn.commit()

@@ -1,30 +1,29 @@
 SELECT
     U.LOGIN AS Usuario,
-    U.TIPOID AS Tipo_Identificación,
-    U.RELACIONU AS Relación_Usuario,
+    U.TIPOID AS Tipo_Identificacion,
+    U.RELACIONU AS Relacion_Usuario,
     O.ID AS Oferta_ID,
     O.CAPACIDAD AS Capacidad,
     O.PRECIO AS Precio,
-    O.TIPO AS Tipo_Alojamiento,
+    P.CATEGORIA AS Tipo_Alojamiento,
     C.ID AS Cliente_ID,
     C.MEDIOPAGO AS Medio_Pago
 FROM
     A_USUARIO U
     JOIN A_OFERTA O ON U.LOGIN = O.OPERADOR
     JOIN A_CLIENTE C ON U.LOGIN = C.ID
+    JOIN A_OPERADOR P ON U.LOGIN = P.ID
 WHERE
-    U.LOGIN <> :usuario_actual -- Agrega la condición para filtrar los usuarios que no sean el usuario actual
+    U.TIPOID = :tipo_de_Id
+    AND U.RELACIONU = :relacion
+    AND P.CATEGORIA = :categoria
     AND NOT EXISTS (
         SELECT 1
         FROM A_RESERVA R
-        WHERE R.CLIENTE = U.LOGIN
-        AND R.FECHA_RESERVA BETWEEN :fecha_inicio AND :fecha_fin
+        WHERE O.ID = R.PROPIEDAD
+        AND R.FECHA_INICIO BETWEEN :fecha_inicio AND :fecha_fin
     )
 ORDER BY
-    -- Aquí puedes especificar el criterio de clasificación deseado
-    -- Puedes usar cualquier columna de la tabla USUARIO, OFERTA o CLIENTE
-    -- Ejemplos:
-    -- U.LOGIN (por datos del cliente)
-    -- O.ID (por oferta de alojamiento)
-    -- O.TIPO (por tipo de alojamiento)
+    O.ID, -- (por oferta de alojamiento)
+    P.CATEGORIA, -- (por tipo de alojamiento)
     U.LOGIN;

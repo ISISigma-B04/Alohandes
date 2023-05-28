@@ -28,3 +28,18 @@ HAVING
     COUNT(DISTINCT DATE_TRUNC('month', r.fecha_inicio)) >= 1
     AND MIN(o.precio) > 150
     AND MIN(p.tipo) = 'Suite';
+    
+    
+SELECT
+    index_name,
+    table_name,
+    uniqueness,
+    column_name
+FROM
+    all_indexes
+WHERE
+    owner = 'ISIS2304B28202310' -- Reemplaza 'TU_USUARIO' con el nombre de usuario correspondiente
+ORDER BY
+    table_name,
+    index_name;
+
