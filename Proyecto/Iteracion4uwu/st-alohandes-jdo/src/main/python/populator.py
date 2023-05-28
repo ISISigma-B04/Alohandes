@@ -14,8 +14,8 @@ class Populator:
     fake = Faker()
     range: range
 
-    def __init__(self, start: int = 0, end: int = 2000):
-        self.range = range(start, end)
+    def __init__(self):
+        self.end = 170000
         cx_Oracle.init_oracle_client(lib_dir=r"C:\Oracle\instantclient_21_10")
         self.__get_connection()
 
@@ -36,7 +36,7 @@ class Populator:
                            "VALUES (:id, :tipoid, :login, :relacionu)"
             data = []
 
-            for _ in self.range:
+            for _ in range(0, self.end):
                 data.append({
                     'id': self.fake.unique.random_int(min=0, max=1000000),
                     'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
@@ -66,7 +66,7 @@ class Populator:
 
             data = []
 
-            for _ in self.range:
+            for _ in range(0, self.end):
                 data.append({
                     'id': choice(usuarios_id[_]),
                     'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
@@ -85,6 +85,7 @@ class Populator:
                     'ganancia_anio_corrido': self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
                 })
                 print("Llevamos " + str(_) + " operadores")
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -100,7 +101,7 @@ class Populator:
 
             data = []
 
-            for i in self.range:
+            for i in range(0, self.end):
                 data.append({
                     'id': i,
                     'capacidad': self.fake.random_int(min=1, max=100),
@@ -112,8 +113,9 @@ class Populator:
                     'habilitada': self.fake.random_int(min=0, max=1),
                     'operador': choice(usuarios_id[i])
                 })
+                
                 print("Llevamos " + str(i) + " ofertas")
-
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -127,7 +129,7 @@ class Populator:
 
             data = []
 
-            for i in self.range:
+            for i in range(0, self.end):
                 data.append({
                     'id': i,
                     'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
@@ -136,8 +138,9 @@ class Populator:
                     'tipo': self.fake.random_element(elements=('APARTAMENTO', 'HABITACION')),
                     'cliente': choice(usuarios_id[i % 2])
                 })
+               
                 print("Llevamos " + str(i) + " reservas colectivas")
-
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -155,7 +158,7 @@ class Populator:
                            ":monto_total,:propiedad,:colectiva)"
             data = []
 
-            for i in self.range:
+            for i in range(0, self.end):
                 fecha_inicio = (choice(ofertas_fechas[i]) + timedelta(days=self.fake.random_int(min=2, max=30)))
                 fecha_fin = (fecha_inicio + timedelta(days=self.fake.random_int(min=2, max=200)))
                 data.append({
@@ -173,6 +176,7 @@ class Populator:
                 })
                 print("Llevamos " + str(i) + " reservas")
             # print(data)
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -183,7 +187,7 @@ class Populator:
             insert_query = "INSERT INTO a_cliente (id, mediopago) VALUES (:id, :mediopago)"
             data = []
 
-            for i in self.range:
+            for i in range(0, self.end):
                 data.append({
                     'id': choice(usuarios_id[i]),
                     'mediopago': self.fake.random_element(
@@ -192,15 +196,18 @@ class Populator:
                 # print(data)
                 print("Llevamos " + str(i) + " clientes")
 
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
 
-populate = Populator(2000)
+populate = Populator()
+
 populate.populate_a_usuario()
-populate.populate_a_cliente()
 populate.populate_a_operador()
 populate.populate_a_oferta()
 populate.populate_a_reservacolectiva()
 populate.populate_a_reserva()
+populate.populate_a_cliente()
+
 print("Se pudo mano, a disfrutar")
