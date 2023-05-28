@@ -34,7 +34,7 @@ class Populator:
             insert_query = "INSERT INTO a_usuario (id, tipoid, login, relacionu) VALUES (:id, :tipoid, :login, :relacionu)"
             data = []
 
-            for _ in range(200):
+            for _ in range(20000):
                 data.append({
                     'id': self.fake.unique.random_int(min=0, max=1000000),
                     'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
@@ -61,7 +61,7 @@ class Populator:
 
             data = []
 
-            for _ in range(200):
+            for _ in range(20000):
                 data.append({
                     'id': choice(usuarios_id[_]),
                     'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
@@ -80,7 +80,6 @@ class Populator:
                     'ganancia_anio_corrido': self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
                 })
                 print("Llevamos " + str(_) + " operadores")
-            print(data)
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -96,7 +95,7 @@ class Populator:
 
             data = []
 
-            for _ in range(200):
+            for _ in range(20000):
                 data.append({
                     'id': _,
                     'capacidad': self.fake.random_int(min=1, max=100),
@@ -126,7 +125,7 @@ class Populator:
 
             data = []
 
-            for _ in range(200):
+            for _ in range(20000):
                 data.append({
                     'id': _,
                     'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
@@ -146,29 +145,29 @@ class Populator:
             ofertas_id = cursor.execute("SELECT id FROM a_oferta").fetchall()
             colectivas_id = cursor.execute("SELECT id FROM a_reservacolectiva").fetchall()
 
-            insert_query = "INSERT INTO a_reserva (id, fecha_inicio, fecha_fin, personas, fin_cancelacion_oportuna, " \
-                           "porcentaje_a_pagar, oferta, colectiva) " \
-                           "VALUES (:id, TO_DATE(:fecha_inicio, 'YYYY-MM-DD'), TO_DATE(:fecha_fin, 'YYYY-MM-DD'), " \
-                           ":personas, TO_DATE(:fin_cancelacion_oportuna, 'YYYY-MM-DD'), :porcentaje_a_pagar, :oferta," \
-                           " :colectiva)"
+            insert_query = "INSERT INTO a_reserva (id, fecha_inicio, fecha_fin, personas, fin_cancelacion_oportuna, "\
+                           "porcentaje_a_pagar, monto_total, propiedad,colectiva) " \
+                           "VALUES (:id,TO_DATE(:fecha_inicio, \'YYYY-MM-DD\'), TO_DATE(:fecha_fin, \'YYYY-MM-DD\')," \
+                           ":personas,TO_DATE(:fin_cancelacion_oportuna, \'YYYY-MM-DD\'),:porcentaje_a_pagar," \
+                           ":monto_total,:propiedad,:colectiva)"
             data = []
 
-            for _ in range(200):
-                fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m').strftime("%Y-%m-%d")
+            for _ in range(20000):
+                fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m')
+                fecha_fin = (fecha_inicio + timedelta(days=self.fake.random_int(min=2, max=200)))
                 data.append({
-                    'id': int(time()) % 2000000,
+                    'id': _,
                     'fecha_inicio': fecha_inicio,
-                    'fecha_fin': self.fake.date_between(start_date=fecha_inicio, end_date='+5m').strftime("%Y-%m-%d"),
+                    'fecha_fin': self.fake.date_between(start_date=fecha_inicio, end_date=fecha_fin).strftime("%Y-%m-%d"),
                     'personas': self.fake.random_int(min=1, max=10),
-                    'fin_cancelacion_oportuna': (
-                            datetime.strptime(fecha_inicio, "%Y-%m-%d") - timedelta(days=30)).strftime("%Y-%m-%d"),
+                    'fin_cancelacion_oportuna': (fecha_inicio + timedelta(days=self.fake.random_int(min=5, max=30))).strftime("%Y-%m-%d"),
                     'porcentaje_a_pagar': self.fake.random_int(min=0, max=100),
                     'monto_total': self.fake.random_int(min=100, max=1000),
-                    'propiedad': choice(ofertas_id)[0],
-                    'colectiva': choice(colectivas_id)[0]
+                    'propiedad': choice(ofertas_id[_]),
+                    'colectiva': choice(colectivas_id[_])
                 })
                 print("Llevamos " + str(_) + " reservas")
-
+            #print(data)
             cursor.executemany(insert_query, data)
         conn.commit()
 
