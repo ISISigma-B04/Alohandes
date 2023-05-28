@@ -1,5 +1,0 @@
-
-SELECT * 
-FROM A_Operador o NATURAL INNER JOIN A_PROPIEDAD p
-WHERE o.id = #pIdOp 
-ORDERED BY #pOrden

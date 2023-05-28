@@ -122,10 +122,7 @@ public class SQLReserva {
 	 */
 	public List<Reserva> darReservas(PersistenceManager pm)
 	{
-		String sql = "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE"; 
-		sql += "BEGIN TRAN";
-		sql += "SELECT * FROM " + pp.darTablaReserva();
-		sql += "COMMIT TRAN";
+		String sql = " SELECT * FROM " + pp.darTablaReserva();
 		Query q = pm.newQuery(SQL, sql);
 		q.setResultClass(Reserva.class);
 		return (List<Reserva>) q.executeList();
