@@ -1,7 +1,7 @@
 SELECT
     U.LOGIN AS Usuario,
-    U.TIPOID AS Tipo_Identificaci�n,
-    U.RELACIONU AS Relaci�n_Usuario,
+    U.TIPOID AS Tipo_Identificacion,
+    U.RELACIONU AS Relacion_Usuario,
     O.ID AS Oferta_ID,
     O.CAPACIDAD AS Capacidad,
     O.PRECIO AS Precio,

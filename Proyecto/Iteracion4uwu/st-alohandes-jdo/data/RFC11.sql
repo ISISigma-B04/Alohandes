@@ -1,17 +1,29 @@
-SELECT a_usuario.*, a_cliente.*
-FROM a_usuario
-JOIN a_cliente ON a_usuario.login = a_cliente.id
-WHERE a_usuario.login NOT IN (
-    SELECT DISTINCT a_reserva.cliente
-    FROM a_reserva
-    JOIN a_oferta ON a_reserva.propiedad = a_oferta.id
-    WHERE a_reserva.fecha_inicio BETWEEN <fecha_inicio> AND <fecha_fin>
-        AND a_oferta.id = <id_oferta>
-)
-ORDER BY 
-    CASE <criterio>
-        WHEN 'cliente' THEN a_cliente.id
-        WHEN 'oferta' THEN NULL
-        WHEN 'tipo' THEN NULL
-        ELSE a_usuario.login
-    END;
+SELECT
+    U.LOGIN AS Usuario,
+    U.TIPOID AS Tipo_Identificacion,
+    U.RELACIONU AS Relacion_Usuario,
+    O.ID AS Oferta_ID,
+    O.CAPACIDAD AS Capacidad,
+    O.PRECIO AS Precio,
+    P.CATEGORIA AS Tipo_Alojamiento,
+    C.ID AS Cliente_ID,
+    C.MEDIOPAGO AS Medio_Pago
+FROM
+    A_USUARIO U
+    JOIN A_OFERTA O ON U.LOGIN = O.OPERADOR
+    JOIN A_CLIENTE C ON U.LOGIN = C.ID
+    JOIN A_OPERADOR P ON U.LOGIN = P.ID
+WHERE
+    U.TIPOID = :tipo_de_Id
+    AND U.RELACIONU = :relacion
+    AND P.CATEGORIA = :categoria
+    AND NOT EXISTS (
+        SELECT 1
+        FROM A_RESERVA R
+        WHERE O.ID = R.PROPIEDAD
+        AND R.FECHA_INICIO BETWEEN :fecha_inicio AND :fecha_fin
+    )
+ORDER BY
+    O.ID, -- (por oferta de alojamiento)
+    P.CATEGORIA, -- (por tipo de alojamiento)
+    U.LOGIN;
