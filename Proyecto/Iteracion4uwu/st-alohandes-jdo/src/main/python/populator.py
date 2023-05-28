@@ -154,7 +154,7 @@ class Populator:
             data = []
 
             for _ in range(2000):
-                fecha_inicio = (choice(ofertas_fechas[_])+ timedelta(days=self.fake.random_int(min=2, max=30)))
+                fecha_inicio = (choice(ofertas_fechas[_])+ timedelta(days=self.fake.random_int(min=1, max=30)))
                 fecha_fin = (fecha_inicio + timedelta(days=self.fake.random_int(min=2, max=200)))
                 data.append({
                     'id': _,
