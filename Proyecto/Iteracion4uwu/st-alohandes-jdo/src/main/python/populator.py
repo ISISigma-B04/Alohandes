@@ -63,7 +63,7 @@ class Populator:
 
             for _ in range(200):
                 data.append({
-                    'id': choice(usuarios_id)[0],
+                    'id': choice(usuarios_id[_]),
                     'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
                     'vencimiento_rnt':
                         self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
@@ -80,7 +80,7 @@ class Populator:
                     'ganancia_anio_corrido': self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
                 })
                 print("Llevamos " + str(_) + " operadores")
-
+            print(data)
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -98,7 +98,7 @@ class Populator:
 
             for _ in range(200):
                 data.append({
-                    'id': int(time()) % 2000000,
+                    'id': _,
                     'capacidad': self.fake.random_int(min=1, max=100),
                     'precio': self.fake.random_int(min=1, max=1000),
                     'tamanio': self.fake.random_int(min=1, max=1000),
@@ -106,7 +106,7 @@ class Populator:
                     'fecha_creacion': self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
                     'piso': self.fake.random_int(min=1, max=10),
                     'habilitada': self.fake.random_int(min=0, max=1),
-                    'operador': choice(usuarios_id)[0]
+                    'operador':  choice(usuarios_id[_])
                 })
                 print("Llevamos " + str(_) + " ofertas")
 
@@ -128,12 +128,12 @@ class Populator:
 
             for _ in range(200):
                 data.append({
-                    'id': int(time()) % 2000000,
+                    'id': _,
                     'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
                     'duracion': self.fake.random_int(min=1, max=30),
                     'cantidad': self.fake.random_int(min=1, max=10),
                     'tipo': self.fake.random_element(elements=('APARTAMENTO', 'HABITACION')),
-                    'cliente': choice(usuarios_id)[0]
+                    'cliente': choice(usuarios_id[_%2])
                 })
                 print("Llevamos " + str(_) + " reservas colectivas")
 

@@ -297,5 +297,4 @@ ALTER TABLE a_reservahabitacion
                 ENABLE;
 
 
-
-
+commit;
