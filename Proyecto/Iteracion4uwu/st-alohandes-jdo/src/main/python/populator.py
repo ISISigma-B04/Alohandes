@@ -34,7 +34,7 @@ class Populator:
             insert_query = "INSERT INTO a_usuario (id, tipoid, login, relacionu) VALUES (:id, :tipoid, :login, :relacionu)"
             data = []
 
-            for _ in range(20000):
+            for _ in range(200):
                 data.append({
                     'id': self.fake.unique.random_int(min=0, max=1000000),
                     'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
@@ -61,7 +61,7 @@ class Populator:
 
             data = []
 
-            for _ in range(20000):
+            for _ in range(200):
                 data.append({
                     'id': choice(usuarios_id[_]),
                     'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
@@ -95,13 +95,13 @@ class Populator:
 
             data = []
 
-            for _ in range(20000):
+            for _ in range(200):
                 data.append({
                     'id': _,
                     'capacidad': self.fake.random_int(min=1, max=100),
                     'precio': self.fake.random_int(min=1, max=1000),
                     'tamanio': self.fake.random_int(min=1, max=1000),
-                    'dias_reservados': self.fake.random_int(min=1, max=30),
+                    'dias_reservados': self.fake.random_int(min=0, max=30),
                     'fecha_creacion': self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
                     'piso': self.fake.random_int(min=1, max=10),
                     'habilitada': self.fake.random_int(min=0, max=1),
@@ -117,15 +117,15 @@ class Populator:
         with conn.cursor() as cursor:
             usuarios_id = cursor.execute("SELECT login FROM a_usuario FETCH FIRST 2 ROWS ONLY").fetchall()
 
-            cursor.execute("INSERT INTO a_cliente (id, mediopago) VALUES (:id, 'TARJETA')", {'id': usuarios_id[0][0]})
-            cursor.execute("INSERT INTO a_cliente (id, mediopago) VALUES (:id, 'TARJETA')", {'id': usuarios_id[1][0]})
+         #   cursor.execute("INSERT INTO a_cliente (id, mediopago) VALUES (:id, 'DEBITO')", {'id': usuarios_id[0][0]})
+         #   cursor.execute("INSERT INTO a_cliente (id, mediopago) VALUES (:id, 'CREDITO')", {'id': usuarios_id[1][0]})
 
             insert_query = "INSERT INTO a_reservacolectiva (id, fecha_inicio, duracion, cantidad, tipo, cliente) " \
                            "VALUES (:id, TO_DATE(:fecha_inicio, 'YYYY-MM-DD'), :duracion, :cantidad, :tipo, :cliente)"
 
             data = []
 
-            for _ in range(20000):
+            for _ in range(200):
                 data.append({
                     'id': _,
                     'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
@@ -143,6 +143,7 @@ class Populator:
         conn = self.__get_connection()
         with conn.cursor() as cursor:
             ofertas_id = cursor.execute("SELECT id FROM a_oferta").fetchall()
+            ofertas_fechas = cursor.execute("SELECT fecha_creacion FROM a_oferta").fetchall()
             colectivas_id = cursor.execute("SELECT id FROM a_reservacolectiva").fetchall()
 
             insert_query = "INSERT INTO a_reserva (id, fecha_inicio, fecha_fin, personas, fin_cancelacion_oportuna, "\
@@ -152,13 +153,13 @@ class Populator:
                            ":monto_total,:propiedad,:colectiva)"
             data = []
 
-            for _ in range(20000):
-                fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m')
+            for _ in range(200):
+                fecha_inicio = choice(ofertas_fechas[_])
                 fecha_fin = (fecha_inicio + timedelta(days=self.fake.random_int(min=2, max=200)))
                 data.append({
                     'id': _,
-                    'fecha_inicio': fecha_inicio,
-                    'fecha_fin': self.fake.date_between(start_date=fecha_inicio, end_date=fecha_fin).strftime("%Y-%m-%d"),
+                    'fecha_inicio': fecha_inicio.strftime("%Y-%m-%d"),
+                    'fecha_fin': fecha_fin.strftime("%Y-%m-%d"),
                     'personas': self.fake.random_int(min=1, max=10),
                     'fin_cancelacion_oportuna': (fecha_inicio + timedelta(days=self.fake.random_int(min=5, max=30))).strftime("%Y-%m-%d"),
                     'porcentaje_a_pagar': self.fake.random_int(min=0, max=100),
@@ -171,9 +172,28 @@ class Populator:
             cursor.executemany(insert_query, data)
         conn.commit()
 
+    def populate_a_cliente(self):
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
+            usuarios_id = cursor.execute("SELECT login FROM a_usuario").fetchall()
+            insert_query = "INSERT INTO a_cliente (id, mediopago) VALUES (:id, :mediopago)"
+            data = []
+
+            for _ in range(200):
+                data.append({
+                    'id': choice(usuarios_id[_]),
+                    'mediopago': self.fake.random_element(elements=('DEBITO', 'CREDITO', 'EFECTIVO', 'NEQUI', 'DAVIPLATA', 'CULO', 'OTRO')),
+                })
+                #print(data)
+                print("Llevamos " + str(_) + " clientes")
+
+            cursor.executemany(insert_query, data)
+        conn.commit()    
+
 
 populator = Populator()
 populator.populate_a_usuario()
+populator.populate_a_cliente()
 populator.populate_a_operador()
 populator.populate_a_oferta()
 populator.populate_a_reservacolectiva()
