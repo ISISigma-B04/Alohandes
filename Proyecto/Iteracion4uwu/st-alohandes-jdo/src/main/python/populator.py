@@ -25,7 +25,7 @@ class Populator:
         connection = self.__get_connection()
         cursor = connection.cursor()
         insertados = []
-        for i in range(33000):
+        for i in range(0, 200):
             id = self.fake.unique.random_int(min=0, max=1000000)
             tipoid = self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0]
             login = self.fake.unique.user_name()
@@ -35,6 +35,7 @@ class Populator:
                            f" '{relacionu}')"
             insertados.append(id)
             cursor.execute(insert_query)
+            print(i)
         connection.commit()
         connection.close()
         return insertados
@@ -42,7 +43,7 @@ class Populator:
     def populate_a_operador(self, usuarios):
         connection = self.__get_connection()
         cursor = connection.cursor()
-        for i in range(0, 33000):
+        for i in range(0, 200):
             id = choice(usuarios)
             numero_rnt = self.fake.unique.random_int(min=0, max=1000000)
             vencimiento_rnt = self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d")
@@ -66,6 +67,7 @@ class Populator:
                            f" TO_DATE('{hora_cierre}','HH24:MI:SS'), {tiempo_minimo}, {ganancia_anio_actual}," \
                            f" {ganancia_anio_corrido})"
             cursor.execute(insert_query)
+            print(i)
         connection.commit()
         connection.close()
 
@@ -73,7 +75,7 @@ class Populator:
         connection = self.__get_connection()
         cursor = connection.cursor()
         insertados = []
-        for i in range(0, 33000):
+        for i in range(0, 200):
             id = self.fake.unique.random_int(min=0, max=1000000)
             capacidad = self.fake.random_int(min=1, max=100)
             precio = self.fake.random_int(min=1, max=1000)
@@ -98,8 +100,8 @@ class Populator:
     def populate_a_reservacolectiva(self):
         connection = self.__get_connection()
         cursor = connection.cursor()
-        insertados = ['null'] * 33000
-        for i in range(0, 100):
+        insertados = ['null'] * 200
+        for i in range(0, 200):
             id = self.fake.unique.random_int(min=0, max=100)
             fecha_inicio = self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d")
             duracion = self.fake.random_int(min=1, max=30)
@@ -112,6 +114,7 @@ class Populator:
                            f" '{tipo}', {cliente})"
             insertados[i] = id
             cursor.execute(insert_query)
+            print(i)
         connection.commit()
         connection.close()
         return insertados
@@ -119,7 +122,7 @@ class Populator:
     def populate_a_reserva(self, ofertas, colectivas):
         connection = self.__get_connection()
         cursor = connection.cursor()
-        for i in range(0, 33000):
+        for i in range(0, 200):
             id = self.fake.unique.random_int(min=0, max=1000000)
             fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m').strftime("%Y-%m-%d")
             fecha_fin = self.fake.date_between(start_date=fecha_inicio, end_date='+5m').strftime("%Y-%m-%d")
@@ -137,7 +140,7 @@ class Populator:
                            f" {personas}, TO_DATE('{fin_cancelacion_oportuna}', 'YYYY-MM-DD'), {porcentaje_a_pagar}," \
                            f" {monto_total}, {propiedad}, {colectiva})"
             cursor.execute(insert_query)
-
+            print(i)    
         connection.commit()
         connection.close()
 
