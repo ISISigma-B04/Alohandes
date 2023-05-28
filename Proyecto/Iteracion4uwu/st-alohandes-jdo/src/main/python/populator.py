@@ -38,9 +38,10 @@ class Populator:
                 data.append({
                     'id': self.fake.unique.random_int(min=0, max=1000000),
                     'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
-                    'login': 'login' + str(int(time()) % 2000000),
+                    'login': 'login' + str(_),
                     'relacionu': self.fake.word()
                 })
+                #print(data)
                 print("Llevamos " + str(_) + " usuarios")
 
             cursor.executemany(insert_query, data)
@@ -62,7 +63,7 @@ class Populator:
 
             for _ in range(200):
                 data.append({
-                    'id': choice(usuarios_id),
+                    'id': choice(usuarios_id)[0],
                     'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
                     'vencimiento_rnt':
                         self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
@@ -105,7 +106,7 @@ class Populator:
                     'fecha_creacion': self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
                     'piso': self.fake.random_int(min=1, max=10),
                     'habilitada': self.fake.random_int(min=0, max=1),
-                    'operador': choice(usuarios_id)
+                    'operador': choice(usuarios_id)[0]
                 })
                 print("Llevamos " + str(_) + " ofertas")
 
