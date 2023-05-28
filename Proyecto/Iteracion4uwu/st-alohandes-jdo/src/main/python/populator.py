@@ -28,7 +28,8 @@ class Populator:
         return conn
 
     def populate_a_usuario(self):
-        with self.__get_connection().cursor() as cursor:
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
             insert_query = "INSERT INTO a_usuario (id, tipoid, login, relacionu) VALUES (:id, :tipoid, :login, :relacionu)"
             data = []
 
@@ -42,9 +43,11 @@ class Populator:
                 print("Llevamos " + str(_) + " usuarios")
 
             cursor.executemany(insert_query, data)
+        conn.commit()
 
     def populate_a_operador(self):
-        with self.__get_connection().cursor() as cursor:
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
             usuarios_id = cursor.execute("SELECT login FROM a_usuario").fetchall()
             insert_query = "INSERT INTO a_operador (id, numero_rnt, vencimiento_rnt, registro_super_turismo, " \
                            "vencimiento_registro_st, categoria, direccion, hora_apertura, hora_cierre, tiempo_minimo, " \
@@ -77,9 +80,11 @@ class Populator:
                 print("Llevamos " + str(_) + " operadores")
 
             cursor.executemany(insert_query, data)
+        conn.commit()
 
     def populate_a_oferta(self):
-        with self.__get_connection().cursor() as cursor:
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
             usuarios_id = cursor.execute("SELECT login FROM a_usuario").fetchall()
 
             insert_query = "INSERT INTO a_oferta (id, capacidad, precio, tamanio, dias_reservados, fecha_creacion, piso, " \
@@ -104,9 +109,11 @@ class Populator:
                 print("Llevamos " + str(_) + " ofertas")
 
             cursor.executemany(insert_query, data)
+        conn.commit()
 
     def populate_a_reservacolectiva(self):
-        with self.__get_connection().cursor() as cursor:
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
             usuarios_id = cursor.execute("SELECT login FROM a_usuario FETCH FIRST 2 ROWS ONLY").fetchall()
 
             cursor.execute("INSERT INTO a_cliente (id, mediopago) VALUES (:id, 'TARJETA')", {'id': usuarios_id[0][0]})
@@ -129,9 +136,11 @@ class Populator:
                 print("Llevamos " + str(_) + " reservas colectivas")
 
             cursor.executemany(insert_query, data)
+        conn.commit()
 
     def populate_a_reserva(self):
-        with self.__get_connection().cursor() as cursor:
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
             ofertas_id = cursor.execute("SELECT id FROM a_oferta").fetchall()
             colectivas_id = cursor.execute("SELECT id FROM a_reservacolectiva").fetchall()
 
@@ -159,6 +168,7 @@ class Populator:
                 print("Llevamos " + str(_) + " reservas")
 
             cursor.executemany(insert_query, data)
+        conn.commit()
 
 
 populator = Populator()
