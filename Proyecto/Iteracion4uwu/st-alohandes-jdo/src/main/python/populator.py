@@ -34,12 +34,12 @@ class Populator:
             insert_query = "INSERT INTO a_usuario (id, tipoid, login, relacionu) VALUES (:id, :tipoid, :login, :relacionu)"
             data = []
 
-            for _ in range(200):
+            for _ in range(2000):
                 data.append({
                     'id': self.fake.unique.random_int(min=0, max=1000000),
                     'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
                     'login': 'login' + str(_),
-                    'relacionu': self.fake.word()
+                    'relacionu': self.fake.random_choices(elements=('ESTUDIANTE', 'EGRESADO', 'EMPLEADO', 'PROFESOR', 'FAMILIAR', 'PROFESOR INVITADO', 'VISITANTE EVENTO'))[0]
                 })
                 #print(data)
                 print("Llevamos " + str(_) + " usuarios")
@@ -61,7 +61,7 @@ class Populator:
 
             data = []
 
-            for _ in range(200):
+            for _ in range(2000):
                 data.append({
                     'id': choice(usuarios_id[_]),
                     'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
@@ -95,7 +95,7 @@ class Populator:
 
             data = []
 
-            for _ in range(200):
+            for _ in range(2000):
                 data.append({
                     'id': _,
                     'capacidad': self.fake.random_int(min=1, max=100),
@@ -125,7 +125,7 @@ class Populator:
 
             data = []
 
-            for _ in range(200):
+            for _ in range(2000):
                 data.append({
                     'id': _,
                     'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
@@ -153,8 +153,8 @@ class Populator:
                            ":monto_total,:propiedad,:colectiva)"
             data = []
 
-            for _ in range(200):
-                fecha_inicio = choice(ofertas_fechas[_])
+            for _ in range(2000):
+                fecha_inicio = (choice(ofertas_fechas[_])+ timedelta(days=self.fake.random_int(min=2, max=30)))
                 fecha_fin = (fecha_inicio + timedelta(days=self.fake.random_int(min=2, max=200)))
                 data.append({
                     'id': _,
@@ -179,7 +179,7 @@ class Populator:
             insert_query = "INSERT INTO a_cliente (id, mediopago) VALUES (:id, :mediopago)"
             data = []
 
-            for _ in range(200):
+            for _ in range(2000):
                 data.append({
                     'id': choice(usuarios_id[_]),
                     'mediopago': self.fake.random_element(elements=('DEBITO', 'CREDITO', 'EFECTIVO', 'NEQUI', 'DAVIPLATA', 'CULO', 'OTRO')),
