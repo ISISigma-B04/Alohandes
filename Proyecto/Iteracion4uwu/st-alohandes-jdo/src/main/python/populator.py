@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
 from random import choice
-from faker import Faker
+from time import time
 
 import cx_Oracle
+from faker import Faker
 
 
 # noinspection SqlNoDataSourceInspection
@@ -37,7 +38,7 @@ class Populator:
                 data.append({
                     'id': self.fake.unique.random_int(min=0, max=1000000),
                     'tipoid': self.fake.random_choices(elements=('CARNET_U', 'CEDULA', 'PASAPORTE'))[0],
-                    'login': self.fake.unique.user_name(),
+                    'login': 'login' + str(int(time()) % 2000000),
                     'relacionu': self.fake.word()
                 })
                 print("Llevamos " + str(_) + " usuarios")
@@ -96,7 +97,7 @@ class Populator:
 
             for _ in range(200):
                 data.append({
-                    'id': self.fake.unique.random_int(min=0, max=1000000),
+                    'id': int(time()) % 2000000,
                     'capacidad': self.fake.random_int(min=1, max=100),
                     'precio': self.fake.random_int(min=1, max=1000),
                     'tamanio': self.fake.random_int(min=1, max=1000),
@@ -126,7 +127,7 @@ class Populator:
 
             for _ in range(200):
                 data.append({
-                    'id': self.fake.unique.random_int(min=0, max=100),
+                    'id': int(time()) % 2000000,
                     'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
                     'duracion': self.fake.random_int(min=1, max=30),
                     'cantidad': self.fake.random_int(min=1, max=10),
@@ -154,12 +155,12 @@ class Populator:
             for _ in range(200):
                 fecha_inicio = self.fake.date_between(start_date='-10y', end_date='+1m').strftime("%Y-%m-%d")
                 data.append({
-                    'id': self.fake.unique.random_int(min=0, max=1000000),
+                    'id': int(time()) % 2000000,
                     'fecha_inicio': fecha_inicio,
                     'fecha_fin': self.fake.date_between(start_date=fecha_inicio, end_date='+5m').strftime("%Y-%m-%d"),
                     'personas': self.fake.random_int(min=1, max=10),
                     'fin_cancelacion_oportuna': (
-                                datetime.strptime(fecha_inicio, "%Y-%m-%d") - timedelta(days=30)).strftime("%Y-%m-%d"),
+                            datetime.strptime(fecha_inicio, "%Y-%m-%d") - timedelta(days=30)).strftime("%Y-%m-%d"),
                     'porcentaje_a_pagar': self.fake.random_int(min=0, max=100),
                     'monto_total': self.fake.random_int(min=100, max=1000),
                     'propiedad': choice(ofertas_id)[0],

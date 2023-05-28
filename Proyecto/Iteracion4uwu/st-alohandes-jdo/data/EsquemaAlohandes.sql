@@ -8,9 +8,9 @@ CREATE SEQUENCE alohandes_sequence;
 CREATE TABLE a_usuario
 (
     id        NUMBER,
-    tipoid    VARCHAR2(255 BYTE),
-    login     VARCHAR2(255 BYTE),
-    relacionu VARCHAR2(255 BYTE),
+    tipoid    VARCHAR2(255),
+    login     VARCHAR2(255),
+    relacionu VARCHAR2(255),
     CONSTRAINT a_usuario_pk PRIMARY KEY (login)
 );
 
@@ -64,8 +64,8 @@ ALTER TABLE a_operador
 -- Creación de la tabla CLIENTE y especificación de sus restricciones
 CREATE TABLE a_cliente
 (
-    id        VARCHAR(255 BYTE),
-    mediopago VARCHAR(255 BYTE),
+    id        VARCHAR(255),
+    mediopago VARCHAR(255),
     CONSTRAINT a_cliente_pk PRIMARY KEY (id)
 );
 
@@ -87,7 +87,7 @@ CREATE TABLE a_oferta
     fecha_creacion  DATE,
     piso            NUMBER,
     habilitada      NUMBER(1, 0),
-    operador        VARCHAR(255 BYTE),
+    operador        VARCHAR(255),
     CONSTRAINT a_propiedad_pk PRIMARY KEY (id)
 );
 
@@ -119,9 +119,9 @@ CREATE TABLE a_habitacion
 (
     id         NUMBER,
     tipo       NUMBER,
-    operador   VARCHAR(250 BYTE),
+    operador   VARCHAR(250),
     individual NUMBER(1, 0),
-    esquema    VARCHAR(250 BYTE),
+    esquema    VARCHAR(250),
     CONSTRAINT a_habitacion_pk PRIMARY KEY (id)
 );
 
@@ -146,11 +146,11 @@ ALTER TABLE a_habitacion
 CREATE TABLE a_apartamento
 (
     id                 NUMBER,
-    operador           VARCHAR(250 BYTE),
+    operador           VARCHAR(250),
     amueblado          NUMBER(1, 0),
     habitaciones       NUMBER,
-    descripcion_menaje VARCHAR2(250 BYTE),
-    descripcion_seguro VARCHAR2(250 BYTE),
+    descripcion_menaje VARCHAR2(250),
+    descripcion_seguro VARCHAR2(250),
     tiene_seguro       NUMBER(1, 0),
     CONSTRAINT a_apartamento_pk PRIMARY KEY (id)
 );
@@ -176,7 +176,7 @@ ALTER TABLE a_apartamento
 CREATE TABLE a_servicio
 (
     id             NUMBER,
-    tipo           VARCHAR(250 BYTE),
+    tipo           VARCHAR(250),
     precio         NUMBER,
     intervalo_pago NUMBER,
     propiedad      NUMBER,
@@ -201,8 +201,8 @@ CREATE TABLE a_reservacolectiva
     fecha_inicio DATE,
     duracion     NUMBER,
     cantidad     NUMBER,
-    tipo         VARCHAR(255 BYTE),
-    cliente      VARCHAR(255 BYTE),
+    tipo         VARCHAR(255),
+    cliente      VARCHAR(255),
     CONSTRAINT a_reserva_pk PRIMARY KEY (id)
 );
 
