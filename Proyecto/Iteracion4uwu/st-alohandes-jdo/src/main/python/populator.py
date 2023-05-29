@@ -205,14 +205,54 @@ class Populator:
             cursor.executemany(insert_query, data)
         conn.commit()
 
+    def populate_a_apartamento(self):
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
+            usuarios_id = cursor.execute("SELECT login FROM a_usuario").fetchall()
+            insert_query = "INSERT INTO a_apartamento (id, operador, amueblado, habitaciones, descripcion_menaje, descripcion_seguro, tiene_seguro) VALUES (:id, :operador, :amueblado, :habitaciones, :descripcion_menaje, :descripcion_seguro, :tiene_seguro)"
+            data = []
+
+            for i in range(0, 1000):
+                data.append({
+                    'id': i,
+                    'operador': choice(usuarios_id[i]),
+                    'amueblado':  self.fake.random_int(min=0, max=1), 
+                    'habitaciones': self.fake.random_int(min=1, max=6), 
+                    'descripcion_menaje': 'b', 
+                    'descripcion_seguro': 'a', 
+                    'tiene_seguro': self.fake.random_int(min=0, max=1)
+                })
+                # print(data)
+                print("Llevamos " + str(i) + " apartamento")
+            conn
+            cursor.executemany(insert_query, data)
+        conn.commit() 
+
+    def populate_a_habitacion(self):
+        conn = self.__get_connection()
+        with conn.cursor() as cursor:
+            usuarios_id = cursor.execute("SELECT login FROM a_usuario").fetchall()
+            ofertas_id = cursor.execute("SELECT id FROM a_oferta").fetchall()
+            insert_query = "INSERT INTO a_habitacion (id, tipo, operador, individual, esquema) VALUES (:id, :tipo, :operador, :individual, :esquema)"
+            data = []
+
+            for i in range(0, 1000):
+                data.append({
+                    'id': choice(ofertas_id[i]),
+                    'tipo': self.fake.random_int(min=0, max=2) ,
+                    'operador': choice(usuarios_id[i]),
+                    'individual':  self.fake.random_int(min=0, max=1), 
+                    'esquema': 'a'
+                })
+                # print(data)
+                print("Llevamos " + str(i) + " habitacion")
+            conn
+            cursor.executemany(insert_query, data)
+        conn.commit()
+
 
 populate = Populator()
 
-populate.populate_a_usuario()
-populate.populate_a_operador()
-populate.populate_a_oferta()
-populate.populate_a_reservacolectiva()
-populate.populate_a_reserva()
-populate.populate_a_cliente()
+populate.populate_a_habitacion()
 
 print("Se pudo mano, a disfrutar")
