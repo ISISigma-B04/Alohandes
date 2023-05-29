@@ -91,6 +91,8 @@ CREATE TABLE a_oferta
     CONSTRAINT a_propiedad_pk PRIMARY KEY (id)
 );
 
+CREATE INDEX idx_oferta_operador ON a_oferta (operador);
+
 ALTER TABLE a_oferta
     ADD CONSTRAINT fk_v2_usuario
         FOREIGN KEY (operador)
@@ -254,6 +256,7 @@ ALTER TABLE a_reserva
                 ENABLE;
 
 CREATE INDEX idx_reserva ON a_reserva (id);
+CREATE INDEX idx_reserva_fecha_inicio ON a_reserva (fecha_inicio);
 
 
 -- Creaación de la tabla RESERVAAPARTAMENTO y especificación de sus restricciones

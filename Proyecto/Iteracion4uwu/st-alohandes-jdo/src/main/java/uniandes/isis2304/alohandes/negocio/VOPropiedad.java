@@ -1,49 +1,45 @@
 package uniandes.isis2304.alohandes.negocio;
 
-import java.sql.Date;
+public interface VOPropiedad {
 
-public interface VOPropiedad 
-{
+    ///////////////////////////////////////
+    ////////////// MÉTODOS ////////////////
+    ///////////////////////////////////////
 
-	///////////////////////////////////////
-	////////////// MÉTODOS ////////////////
-	///////////////////////////////////////
+    /**
+     * @return El id de la propiedad
+     */
+    long getId();
 
-	/**
-	 * @return El id de la propiedad
-	 */
-	public long getId();
-	
-	/**
-	 * @return La capacidad de la propiedad
-	 */
-	public int getCapacidad();
-	
-	/**
-	 * @return El tamanio en m2 de la propiedad
-	 */
-	public double getTamanio();
-	
-	/**
-	 * @return El precio de la propiedad
-	 */
-	public double getPrecio();
-	
-	/**
-	 * @return La fecha de creación de la propiedad
-	 */
-	public String getFechaCreacion();
-	
-	/**
-	 * @return El número de días reservados de la propiedad
-	 */
-	public int getDiasReservados();
-	
-	/**
-	 * @return El piso en el que se encuentra la propiedad
-	 */
-	public int getPiso();
-	
+    /**
+     * @return La capacidad de la propiedad
+     */
+    int getCapacidad();
 
-	
+    /**
+     * @return El tamanio en m2 de la propiedad
+     */
+    double getTamanio();
+
+    /**
+     * @return El precio de la propiedad
+     */
+    double getPrecio();
+
+    /**
+     * @return La fecha de creación de la propiedad
+     */
+    String getFechaCreacion();
+
+    /**
+     * @return El número de días reservados de la propiedad
+     */
+    int getDiasReservados();
+
+    /**
+     * @return El piso en el que se encuentra la propiedad
+     */
+    int getPiso();
+
+
 }
