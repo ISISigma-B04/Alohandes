@@ -227,31 +227,19 @@
 					"event": "darDineroAnioCorrido"
 				},
 				{
-					"label": "RFC12 (Mayor Ocupacion)",
-					"event": "darOfertaMayorOcupacion"
-				},
-				{
-					"label": "RFC12 (Menor Ocupacion)",
-					"event": "darOfertaMenorOcupacion"
-				},
-				{
-					"label": "RFC12 (Operador mas solicitado)",
-					"event": "darOperadorMasSolicitado"
-				},
-				{
-					"label": "RFC12 (Operador menos solicitado)",
-					"event": "darOperadorMenosSolicitado"
+					"label": "RFC12 (Funcionamiento)",
+					"event": "darFuncionamientoData"
 				},
 				{
 					"label": "RFC13 (Buenos Clientes)",
 					"event": "darBuenosClientes"
 				},
 				{
-					"label": "Consumo SI",
+					"label": "RFC10 Consumo SI",
 					"event": "consumoSI"
 				},
 				{
-					"label": "Consumo NO",
+					"label": "RFC11 Consumo NO",
 					"event": "consumoNO"
 				}
 			]

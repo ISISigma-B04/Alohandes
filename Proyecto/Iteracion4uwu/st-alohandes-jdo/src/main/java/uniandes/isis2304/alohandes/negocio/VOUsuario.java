@@ -4,37 +4,33 @@ package uniandes.isis2304.alohandes.negocio;
  * Interfaz para los métodos get de usuario.
  */
 public interface VOUsuario {
-	
-
-	/* ****************************************************************
-	 * 			Métodos 
-	 *****************************************************************/
-
-	/**
-	 * 
-	 * @return log in
-	 */
-	public String getLogIn();
 
 
-	/**
-	 * 
-	 * @return tipo de id
-	 */
-	public String getTipoId();
+    /* ****************************************************************
+     * 			Métodos
+     *****************************************************************/
 
-	/**
-	 * 
-	 * @return numero de id.
-	 */
-	public long getNumeroId();
+    /**
+     * @return log in
+     */
+    String getLogIn();
 
 
-	/**
-	 * 
-	 * @return relacionU.
-	 */
-	public String getRelacioU();
+    /**
+     * @return tipo de id
+     */
+    String getTipoId();
 
-	
+    /**
+     * @return numero de id.
+     */
+    long getNumeroId();
+
+
+    /**
+     * @return relacionU.
+     */
+    String getRelacioU();
+
+
 }

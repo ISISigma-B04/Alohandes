@@ -1,21 +1,20 @@
-with res as ( SELECT count(*) AS mes , c.id as id, count(c.reservas) as reservas 
-FROM A_CLIENTE c
-INNER JOIN A_RESERVA r ON (c.reservas = r.id) 
-INNER JOIN A_PROPIEDAD p ON (p.id = r.propiedad)
-WHERE to_char(r.fecha_inicio,'MM')- to_char((  
-SELECT r2.fecha_inicio 
-FROM A_CLIENTE c2
-INNER JOIN A_RESERVA r2 ON (c2.reservas = r2.id)
-INNER JOIN A_PROPIEDAD p2 ON (p2.id = r2.propiedad)
-WHERE c.id = c2.id)) = -1  
-group by c.id
-)
-SELECT  c.*, p.precio , h.tipo, re.mes 
-FROM A_CLIENTE c 
-INNER JOIN A_RESERVA r ON (c.reservas = r.id) 
-INNER JOIN A_PROPIEDAD p ON (p.id = r.propiedad)
-INNER JOIN A_HABITACION h ON (p.id = h.id) 
-INNER JOIN A_APARTAMENTO ap ON (p.id = ap.id)
-INNER JOIN res re ON (re.id = c.id) 
-WHERE p.precio > 150 OR h.tipo = 3 OR re.mes = re.reservas
-    
+SELECT c.*,p.precio,h.tipo,re.mes
+FROM a_cliente c
+INNER JOIN a_reservacolectiva rcc ON rcc.cliente = c.id
+INNER JOIN a_reserva r ON rcc.id = r.colectiva
+INNER JOIN a_oferta p ON p.id = r.propiedad
+INNER JOIN a_habitacion h ON p.id = h.id
+INNER JOIN a_apartamento ap ON p.id = ap.id
+INNER JOIN (SELECT COUNT(*) AS mes,c.id AS id,COUNT(rcc1.cliente) AS reservas
+         FROM a_cliente c
+         INNER JOIN a_reservacolectiva rcc1 ON rcc1.cliente = c.id
+         INNER JOIN a_reserva r1 ON rcc1.id = r1.colectiva
+         INNER JOIN a_oferta p ON p.id = r1.propiedad
+         WHERE TO_CHAR(r1.fecha_inicio, 'MM') - TO_CHAR((SELECT r2.fecha_inicio
+                                                         FROM a_cliente c2
+                                                         INNER JOIN a_reservacolectiva rcc2 ON rcc2.cliente = c2.id
+                                                         INNER JOIN a_reserva r2 ON rcc2.id = r2.colectiva
+                                                         INNER JOIN a_oferta p2 ON p2.id = r2.propiedad
+                                                         WHERE c.id = c2.id)) = - 1
+         GROUP BY c.id) re ON re.id = c.id
+WHERE p.precio > 150 OR h.tipo = 2 OR re.mes = re.reservas;

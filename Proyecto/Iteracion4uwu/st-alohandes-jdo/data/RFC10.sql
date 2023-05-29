@@ -1,25 +1,11 @@
-SELECT
-    U.LOGIN AS Usuario,
-    U.TIPOID AS Tipo_Identificacion,
-    U.RELACIONU AS Relacion_Usuario,
-    O.ID AS Oferta_ID,
-    O.CAPACIDAD AS Capacidad,
-    O.PRECIO AS Precio,
-    P.CATEGORIA AS Tipo_Alojamiento,
-    C.ID AS Cliente_ID,
-    C.MEDIOPAGO AS Medio_Pago
-FROM
-    A_USUARIO U
-    JOIN A_OFERTA O ON U.LOGIN = O.OPERADOR
-    JOIN A_RESERVA R ON O.ID = R.PROPIEDAD
-    JOIN A_CLIENTE C ON U.LOGIN = C.ID
-    JOIN A_OPERADOR P ON U.LOGIN = P.ID
-WHERE
-    R.FECHA_INICIO BETWEEN :fecha_inicio AND :fecha_fin
-    AND P.CATEGORIA = :categoria
-    AND U.TIPOID = :tipo_de_Id
-    AND U.RELACIONU = :relacion
-ORDER BY
-    O.ID, -- (por oferta de alojamiento)
-    P.CATEGORIA, -- (por tipo de alojamiento)
-    U.LOGIN;
+SELECT U.LOGIN AS Usuario, U.TIPOID AS Tipo_Identificacion, U.RELACIONU AS Relacion_Usuario, O.ID AS Oferta_ID,
+       O.CAPACIDAD AS Capacidad, O.PRECIO AS Precio, P.CATEGORIA AS Tipo_Alojamiento, C.ID AS Cliente_ID, C.MEDIOPAGO AS Medio_Pago
+FROM A_USUARIO U
+         JOIN A_OFERTA O ON U.LOGIN = O.OPERADOR
+         JOIN A_RESERVA R ON O.ID = R.PROPIEDAD
+         JOIN A_CLIENTE C ON U.LOGIN = C.ID
+         JOIN A_OPERADOR P ON U.LOGIN = P.ID
+WHERE R.FECHA_INICIO BETWEEN TO_DATE(:fecha_inicio, 'YYYY-MM-DD') AND TO_DATE (:fecha_final, 'YYYY-MM-DD')
+GROUP BY U.LOGIN, U.TIPOID, U.RELACIONU, O.ID, O.CAPACIDAD, O.PRECIO, P.CATEGORIA, C.ID, C.MEDIOPAGO
+HAVING COUNT(R.ID) > 0
+ORDER BY O.ID, P.CATEGORIA, U.LOGIN;

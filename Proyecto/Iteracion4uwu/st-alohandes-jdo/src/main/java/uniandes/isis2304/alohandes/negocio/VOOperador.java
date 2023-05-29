@@ -1,6 +1,5 @@
 package uniandes.isis2304.alohandes.negocio;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -8,92 +7,78 @@ import java.util.ArrayList;
  */
 public interface VOOperador {
 
-	/* ****************************************************************
-	 * 			Métodos 
-	 *****************************************************************/
+    /* ****************************************************************
+     * 			Métodos
+     *****************************************************************/
 
-	/**
-	 * 
-	 * @return numero de RNT.
-	 */
-	public int getNumero_RNT();
+    /**
+     * @return numero de RNT.
+     */
+    int getNumero_RNT();
 
-	/**
-	 * 
-	 * @return vencimiento del RNT
-	 */
-	public String getVencimiento_RNT();
+    /**
+     * @return vencimiento del RNT
+     */
+    String getVencimiento_RNT();
 
-	/**
-	 * 
-	 * @return registro del super turismo del operador.
-	 */
-	public String getRegistro_Super_Turismo();
+    /**
+     * @return registro del super turismo del operador.
+     */
+    String getRegistro_Super_Turismo();
 
-	/**
-	 * 
-	 * @return fecha de vencimiento del super tutimo.
-	 */
-	public String getVencimiento_Registro_ST();
+    /**
+     * @return fecha de vencimiento del super tutimo.
+     */
+    String getVencimiento_Registro_ST();
 
-	/**
-	 * 
-	 * @return categoria del operador.
-	 */
-	public String getCategoria();
+    /**
+     * @return categoria del operador.
+     */
+    String getCategoria();
 
-	/**
-	 * 
-	 * @return direccion del operador.
-	 */
-	public String getDireccion();
+    /**
+     * @return direccion del operador.
+     */
+    String getDireccion();
 
-	/**
-	 * 
-	 * @return hora de apertura.
-	 */
-	public String getHora_Apertura();
+    /**
+     * @return hora de apertura.
+     */
+    String getHora_Apertura();
 
-	/**
-	 * 
-	 * @return hora de cierre.
-	 */
-	public String getHora_Cierre();
+    /**
+     * @return hora de cierre.
+     */
+    String getHora_Cierre();
 
-	/**
-	 * 
-	 * @return tiempo minmo de estadia.
-	 */
-	public int getTiempo_Minimo();
+    /**
+     * @return tiempo minmo de estadia.
+     */
+    int getTiempo_Minimo();
 
-	/**
-	 * 
-	 * @return ganacias del anio actual.
-	 */
-	public double getGanancia_Anio_Actual();
+    /**
+     * @return ganacias del anio actual.
+     */
+    double getGanancia_Anio_Actual();
 
-	/**
-	 * 
-	 * @return ganacias anio de corrido.
-	 */
-	public double getGanancia_Anio_Corrido();
+    /**
+     * @return ganacias anio de corrido.
+     */
+    double getGanancia_Anio_Corrido();
 
-	/**
-	 * 
-	 * @return habitaciones del operador.
-	 */
-	public ArrayList getHabitaciones();
+    /**
+     * @return habitaciones del operador.
+     */
+    ArrayList getHabitaciones();
 
-	/**
-	 * 
-	 * @return apartamentos del operador.
-	 */
-	public ArrayList getApartamentos();
-	
-	@Override
-	/**
-	 * @return Una cadena de caracteres con todos los atributos del operador.
-	 */
-	public String toString();
-	
+    /**
+     * @return apartamentos del operador.
+     */
+    ArrayList getApartamentos();
+
+    @Override
+    /**
+     * @return Una cadena de caracteres con todos los atributos del operador.
+     */ String toString();
+
 }

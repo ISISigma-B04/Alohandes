@@ -1,45 +1,20 @@
-SELECT
-    c.id AS id_cliente,
-    c.tipoid AS tipo_identificacion,
-    c.login AS usuario,
-    CASE
-        WHEN COUNT(DISTINCT DATE_TRUNC('month', r.fecha_inicio)) >= 1 THEN 'Reserva mensual'
-        ELSE NULL
-    END AS justificacion_reserva_mensual,
-    CASE
-        WHEN MIN(o.precio) > 150 THEN 'Reserva alojamientos costosos'
-        ELSE NULL
-    END AS justificacion_alojamientos_costosos,
-    CASE
-        WHEN MIN(p.tipo) = 'Suite' THEN 'Reserva siempre suites'
-        ELSE NULL
-    END AS justificacion_suites
-FROM
-    a_cliente c
-    JOIN a_reserva r ON c.id = r.cliente
-    JOIN a_oferta o ON r.propiedad = o.id
-    JOIN a_habitacion h ON o.id = h.id
-    JOIN a_propiedad p ON h.id = p.id
-GROUP BY
-    c.id,
-    c.tipoid,
-    c.login
-HAVING
-    COUNT(DISTINCT DATE_TRUNC('month', r.fecha_inicio)) >= 1
-    AND MIN(o.precio) > 150
-    AND MIN(p.tipo) = 'Suite';
-    
-    
-SELECT
-    index_name,
-    table_name,
-    uniqueness,
-    column_name
-FROM
-    all_indexes
-WHERE
-    owner = 'ISIS2304B28202310' -- Reemplaza 'TU_USUARIO' con el nombre de usuario correspondiente
-ORDER BY
-    table_name,
-    index_name;
-
+SELECT c.*,p.precio,h.tipo,re.mes
+FROM a_cliente c
+         INNER JOIN a_reservacolectiva rcc ON rcc.cliente = c.id
+         INNER JOIN a_reserva r ON rcc.id = r.colectiva
+         INNER JOIN a_oferta p ON p.id = r.propiedad
+         INNER JOIN a_habitacion h ON p.id = h.id
+         INNER JOIN a_apartamento ap ON p.id = ap.id
+         INNER JOIN (SELECT COUNT(*) AS mes,c.id AS id,COUNT(rcc1.cliente) AS reservas
+                     FROM a_cliente c
+                              INNER JOIN a_reservacolectiva rcc1 ON rcc1.cliente = c.id
+                              INNER JOIN a_reserva r1 ON rcc1.id = r1.colectiva
+                              INNER JOIN a_oferta p ON p.id = r1.propiedad
+                     WHERE TO_CHAR(r1.fecha_inicio, 'MM') - TO_CHAR((SELECT r2.fecha_inicio
+                                                                     FROM a_cliente c2
+                                                                              INNER JOIN a_reservacolectiva rcc2 ON rcc2.cliente = c2.id
+                                                                              INNER JOIN a_reserva r2 ON rcc2.id = r2.colectiva
+                                                                              INNER JOIN a_oferta p2 ON p2.id = r2.propiedad
+                                                                     WHERE c.id = c2.id)) = - 1
+                     GROUP BY c.id) re ON re.id = c.id
+WHERE p.precio > 150 OR h.tipo = 2 OR re.mes = re.reservas;
