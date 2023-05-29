@@ -15,8 +15,8 @@ class Populator:
     start: int
     end: int
 
-    def __init__(self, start: int = 0, end: int = 2000):
-        self.start, self.end = start, end
+    def __init__(self):
+        self.end = 170000
         cx_Oracle.init_oracle_client(lib_dir=r"C:\Oracle\instantclient_21_10")
         self.__get_connection()
 
@@ -71,29 +71,26 @@ class Populator:
 
             data = []
 
-            for i in range(self.start, self.end):
-                try:
-                    data.append({
-                        'id': usuarios_id[i],
-                        'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
-                        'vencimiento_rnt':
-                            self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
-                        'registro_super_turismo': self.fake.word(),
-                        'vencimiento_registro_st': self.fake.date_between(start_date='-1y', end_date='today').strftime(
-                            "%Y-%m-%d"),
-                        'categoria': self.fake.random_element(
-                            elements=('HOTEL', 'HOSTAL', 'P_NATURAL', 'APARTAMENTO', 'VECINOS', 'VIVIENDA_U')),
-                        'direccion': self.fake.address().replace("'", "''"),
-                        'hora_apertura': self.fake.time_object().strftime("%H:%M:%S"),
-                        'hora_cierre': self.fake.time_object().strftime("%H:%M:%S"),
-                        'tiempo_minimo': self.fake.random_int(min=1, max=24),
-                        'ganancia_anio_actual': self.fake.pydecimal(left_digits=5, right_digits=2, positive=True),
-                        'ganancia_anio_corrido': self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
-                    })
-                    print("Llevamos " + str(i) + " operadores")
-                except IndexError:
-                    print(i)
-                    break
+            for _ in range(0, self.end):
+                data.append({
+                    'id': choice(usuarios_id[_]),
+                    'numero_rnt': self.fake.unique.random_int(min=0, max=1000000),
+                    'vencimiento_rnt':
+                        self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
+                    'registro_super_turismo': self.fake.word(),
+                    'vencimiento_registro_st': self.fake.date_between(start_date='-1y', end_date='today').strftime(
+                        "%Y-%m-%d"),
+                    'categoria': self.fake.random_element(
+                        elements=('HOTEL', 'HOSTAL', 'P_NATURAL', 'APARTAMENTO', 'VECINOS', 'VIVIENDA_U')),
+                    'direccion': self.fake.address().replace("'", "''"),
+                    'hora_apertura': self.fake.time_object().strftime("%H:%M:%S"),
+                    'hora_cierre': self.fake.time_object().strftime("%H:%M:%S"),
+                    'tiempo_minimo': self.fake.random_int(min=1, max=24),
+                    'ganancia_anio_actual': self.fake.pydecimal(left_digits=5, right_digits=2, positive=True),
+                    'ganancia_anio_corrido': self.fake.pydecimal(left_digits=5, right_digits=2, positive=True)
+                })
+                print("Llevamos " + str(_) + " operadores")
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -109,24 +106,21 @@ class Populator:
 
             data = []
 
-            for i in range(self.start, self.end):
-                try:
-                    data.append({
-                        'id': i,
-                        'capacidad': self.fake.random_int(min=1, max=100),
-                        'precio': self.fake.random_int(min=1, max=1000),
-                        'tamanio': self.fake.random_int(min=1, max=1000),
-                        'dias_reservados': self.fake.random_int(min=0, max=30),
-                        'fecha_creacion': self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
-                        'piso': self.fake.random_int(min=1, max=10),
-                        'habilitada': self.fake.random_int(min=0, max=1),
-                        'operador': usuarios_id[i]
-                    })
-                    print("Llevamos " + str(i) + " ofertas")
-                except IndexError:
-                    print(i)
-                    break
-
+            for i in range(0, self.end):
+                data.append({
+                    'id': i,
+                    'capacidad': self.fake.random_int(min=1, max=100),
+                    'precio': self.fake.random_int(min=1, max=1000),
+                    'tamanio': self.fake.random_int(min=1, max=1000),
+                    'dias_reservados': self.fake.random_int(min=0, max=30),
+                    'fecha_creacion': self.fake.date_between(start_date='-1y', end_date='today').strftime("%Y-%m-%d"),
+                    'piso': self.fake.random_int(min=1, max=10),
+                    'habilitada': self.fake.random_int(min=0, max=1),
+                    'operador': choice(usuarios_id[i])
+                })
+                
+                print("Llevamos " + str(i) + " ofertas")
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -140,21 +134,18 @@ class Populator:
 
             data = []
 
-            for i in range(self.start, self.end):
-                try:
-                    data.append({
-                        'id': i,
-                        'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
-                        'duracion': self.fake.random_int(min=1, max=30),
-                        'cantidad': self.fake.random_int(min=1, max=10),
-                        'tipo': self.fake.random_element(elements=('APARTAMENTO', 'HABITACION')),
-                        'cliente': usuarios_id[i % 2]
-                    })
-                    print("Llevamos " + str(i) + " reservas colectivas")
-                except IndexError:
-                    print(i)
-                    break
-
+            for i in range(0, self.end):
+                data.append({
+                    'id': i,
+                    'fecha_inicio': self.fake.date_between(start_date='-1y', end_date='+1y').strftime("%Y-%m-%d"),
+                    'duracion': self.fake.random_int(min=1, max=30),
+                    'cantidad': self.fake.random_int(min=1, max=10),
+                    'tipo': self.fake.random_element(elements=('APARTAMENTO', 'HABITACION')),
+                    'cliente': choice(usuarios_id[i % 2])
+                })
+               
+                print("Llevamos " + str(i) + " reservas colectivas")
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -172,28 +163,25 @@ class Populator:
                            ":monto_total,:propiedad,:colectiva)"
             data = []
 
-            for i in range(self.start, self.end):
-                try:
-                    fecha_inicio = (ofertas_fechas[i] + timedelta(days=self.fake.random_int(min=2, max=30)))
-                    fecha_fin = (fecha_inicio + timedelta(days=self.fake.random_int(min=2, max=200)))
-                    data.append({
-                        'id': i,
-                        'fecha_inicio': fecha_inicio.strftime("%Y-%m-%d"),
-                        'fecha_fin': fecha_fin.strftime("%Y-%m-%d"),
-                        'personas': self.fake.random_int(min=1, max=10),
-                        'fin_cancelacion_oportuna': (
-                                fecha_inicio + timedelta(days=self.fake.random_int(min=5, max=30))).strftime(
-                            "%Y-%m-%d"),
-                        'porcentaje_a_pagar': self.fake.random_int(min=0, max=100),
-                        'monto_total': self.fake.random_int(min=100, max=1000),
-                        'propiedad': ofertas_id[i],
-                        'colectiva': colectivas_id[i]
-                    })
-                    print("Llevamos " + str(i) + " reservas")
-                except IndexError:
-                    print(i)
-                    break
+            for i in range(0, self.end):
+                fecha_inicio = (choice(ofertas_fechas[i]) + timedelta(days=self.fake.random_int(min=2, max=30)))
+                fecha_fin = (fecha_inicio + timedelta(days=self.fake.random_int(min=2, max=200)))
+                data.append({
+                    'id': i,
+                    'fecha_inicio': fecha_inicio.strftime("%Y-%m-%d"),
+                    'fecha_fin': fecha_fin.strftime("%Y-%m-%d"),
+                    'personas': self.fake.random_int(min=1, max=10),
+                    'fin_cancelacion_oportuna': (
+                            fecha_inicio + timedelta(days=self.fake.random_int(min=5, max=30))).strftime(
+                        "%Y-%m-%d"),
+                    'porcentaje_a_pagar': self.fake.random_int(min=0, max=100),
+                    'monto_total': self.fake.random_int(min=100, max=1000),
+                    'propiedad': choice(ofertas_id[i]),
+                    'colectiva': choice(colectivas_id[i])
+                })
+                print("Llevamos " + str(i) + " reservas")
             # print(data)
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
@@ -204,28 +192,27 @@ class Populator:
             insert_query = "INSERT INTO a_cliente (id, mediopago) VALUES (:id, :mediopago)"
             data = []
 
-            for i in range(self.start, self.end):
-                try:
-                    data.append({
-                        'id': usuarios_id[i],
-                        'mediopago': self.fake.random_element(
-                            elements=('DEBITO', 'CREDITO', 'EFECTIVO', 'NEQUI', 'DAVIPLATA', 'CULO', 'OTRO')),
-                    })
-                    # print(data)
-                    print("Llevamos " + str(i) + " clientes")
-                except IndexError:
-                    print(i)
-                    break
+            for i in range(0, self.end):
+                data.append({
+                    'id': choice(usuarios_id[i]),
+                    'mediopago': self.fake.random_element(
+                        elements=('DEBITO', 'CREDITO', 'EFECTIVO', 'NEQUI', 'DAVIPLATA', 'CULO', 'OTRO')),
+                })
+                # print(data)
+                print("Llevamos " + str(i) + " clientes")
 
+            conn
             cursor.executemany(insert_query, data)
         conn.commit()
 
 
-populate = Populator(2000, 10000)
+populate = Populator()
+
 populate.populate_a_usuario()
-populate.populate_a_cliente()
 populate.populate_a_operador()
 populate.populate_a_oferta()
 populate.populate_a_reservacolectiva()
 populate.populate_a_reserva()
+populate.populate_a_cliente()
+
 print("Se pudo mano, a disfrutar")
